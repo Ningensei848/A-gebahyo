@@ -58,7 +58,7 @@ interface EntryData {
     weight: number
 }
 
-interface ResultData extends EntryData {
+interface ResultData extends EntryData, RaceMetadata {
     rank: string
     time: number
     diff: string

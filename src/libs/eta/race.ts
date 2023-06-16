@@ -260,7 +260,7 @@ const getRecordsFromPreviousResult = async (
     horse_id: string,
     timestamp: string,
 ): Promise<{ horse_id: string; results: ResultData[] }> => {
-    const entrypoint = 'entries'
+    const entrypoint = 'getHorseResult'
     const url = `${ENDPOINT}/${entrypoint}`
     const query = new URLSearchParams({
         q: `horse_id == "${horse_id}" and timestamp < "${timestamp}"`,

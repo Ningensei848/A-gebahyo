@@ -25,20 +25,21 @@
  / 調教師: [<%= entry.trainer_name %>](https://db.netkeiba.com/trainer/<%= entry.trainer_id %>)）
 <%= br %>
 
-<%   const { results } = it.records.find(({ horse_id }) => horse_id == entry.horse_id) %>
+<%   const { results } = it.records.find(({ horse_id }) => horse_id === entry.horse_id) %>
 <%   if (results.length > 0){ %>
 <%~    include('./result_table',  { results }) %>
-<%= nl %>
+<%=  nl %>
 <%   } %>
+
 <% /* TODO: rechart.js で色々描画 */ %>
 <% /* weight, gain → 過去データがほしい */ %>
 <% /* 血統情報 */ %>
 <% /* https://db.netkeiba.com/horse/ped/2001104313/ */ %>
+<% /* TODO: ↓ これどうにか component 使いたいね */ %>
+> Twitter で [#<%= entry.horse_name %>](https://twitter.com/search?q=<%= entry.horse_name %>) をみてみる
+<%= nl %>
 <% }) %><% /* End it.entries.forEach -------------------------------------*/ %>
-
-
 <% /* レースの統計分析 ----------------------------------------------------- */ %>
-
 <% /* まとめと予想 -------------------------------------------------------- */ %>
 ## 総括
 <%= nl %>
