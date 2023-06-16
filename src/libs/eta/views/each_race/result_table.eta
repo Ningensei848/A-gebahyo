@@ -1,0 +1,18 @@
+<% /* props ... results */ %>
+<% const br = "\n" %>
+<details>
+<summary>これまでの成績</summary>
+<%= br %>
+| 開催日 | 順位 | 距離 | タイム | 上り | 各コーナーでの順位 |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+<% it.results.forEach((result, ix) => { %>
+<%   const { rank, time, diff, rank_at_corner, max_speed, bounty, timestamp } = result %>
+<%   if (!rank.match(/\d+/)) { return; } %>
+<%   const date = timestamp.split(/T/).shift() %>
+<%   const goal_time = `${Math.floor(time / 60)}m${(time % 60).toPrecision(3)}s` %>
+<% /* TODO: 過去走ったレースの metadata はどう紐づけて持ってくる？ */ %>
+<% /* Ans. API サーバ側で、/entries を呼んだときは自動的に metadata と紐付けるようにする */ %>
+| <%= date %> | <%= rank %> | XXXXm | <%= goal_time %> | <%= max_speed %> | <%= rank_at_corner %> |
+<% })%>
+<%= br %>
+</details>

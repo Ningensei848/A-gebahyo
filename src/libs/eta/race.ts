@@ -1,0 +1,300 @@
+import { Eta } from 'eta'
+import * as path from 'path'
+import { mkdir, writeFile } from 'fs/promises'
+
+import { default as constructPortal } from './portal'
+
+// load `.env` file -----------------------------------------------------------
+// cf. https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from 'dotenv'
+import { makeFilepath } from './util'
+dotenv.config()
+// ----------------------------------------------------------------------------
+
+const ENDPOINT = process.env.ENDPOINT
+
+process.env.TZ = 'Asia/Tokyo'
+
+const eta = new Eta({ views: path.join(__dirname, 'views') })
+
+/**
+ * User Defined Type Guard!
+ */
+const isKaisaiIds = (arg: any): arg is KaisaiIds => {
+    if ('jra' in arg && 'nar' in arg) {
+        if (Array.isArray(arg.jra) && Array.isArray(arg.nar)) {
+            return true
+        }
+    }
+    return false
+}
+
+const isRaceDetail = (arg: any): arg is RaceDetail => {
+    // そもそもオブジェクトであるか判定
+    if (!isObject(arg)) {
+        return false
+    }
+
+    // 含まれていれば `RaceDetail` のはず
+    if (
+        'race_id' in arg &&
+        'org' in arg &&
+        'metadata' in arg &&
+        'entries' in arg
+    ) {
+        // TODO: もうちょいちゃんとやる
+        return true
+    }
+    return false
+}
+
+const isObject = (arg: any): arg is Object => {
+    return arg instanceof Object && !(arg instanceof Array) ? true : false
+}
+
+const isResultData = (arg: any): arg is ResultData => {
+    // if (!isRaceDetail(arg)) {
+    //     return false
+    // }
+
+    if (
+        'rank' in arg &&
+        'time' in arg &&
+        'diff' in arg &&
+        'rank_at_corner' in arg &&
+        'max_speed' in arg &&
+        'owner_id' in arg &&
+        'owner_name' in arg &&
+        'bounty' in arg
+    ) {
+        // TODO: もうちょいちゃんとやる
+        return true
+    }
+    return false
+}
+
+const isHorseRecord = (arg: any): arg is HorseRecord => {
+    if ('horse_id' in arg && 'results' in arg) {
+        // TODO: もうちょいちゃんとやる
+        return true
+    }
+    return false
+}
+
+const main = async () => {
+    // jra, nar をキーとした辞書になっている
+    const yyyymmdd = getCurrentDate()
+    const kaisai = await getKaisaiList(yyyymmdd)
+    const races_jra = await parallelizedProcess(kaisai, 'jra')
+    const races_nar = await parallelizedProcess(kaisai, 'nar')
+
+    // すべての race_details を portal.ts に渡してポータルページを作る
+    const races_all = races_jra.concat(races_nar)
+    await constructPortal(yyyymmdd, races_all)
+
+    return
+}
+
+const getCurrentDate = (): string => {
+    // タイムゾーンを 'Asia/Tokyo' に設定
+    process.env.TZ = 'Asia/Tokyo'
+
+    // 現在の日付を取得
+    const currentDate = new Date()
+
+    // 年、月、日を取得
+    const year = currentDate.getFullYear()
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+    const day = String(currentDate.getDate()).padStart(2, '0')
+
+    // 'yyyymmdd' 形式の文字列を生成します
+    return `${year}${month}${day}`
+}
+
+// 01. 現在の日付を元に、`/getKaisaiList` を叩いて race_id のリストを得る
+const getKaisaiList = async (yyyymmdd: string): Promise<KaisaiIds> => {
+    // fetch して得たJSONをそのまま返す
+    const entrypoint = 'getKaisaiList'
+    const url = `${ENDPOINT}/${entrypoint}`
+    const query = new URLSearchParams({
+        dt: yyyymmdd, // string
+        key: process.env.API_KEY,
+    })
+    const response = await fetch(`${url}?${query}`)
+    const data = await response.json()
+
+    if (isKaisaiIds(data)) {
+        return data
+    } else {
+        throw new Error(
+            '[getKaisaiList] Invalid value is returned from server.' +
+                'Check that the vars `url` and `query` are set to the correct values.',
+        )
+    }
+}
+
+const parallelizedProcess = async (
+    kaisai: KaisaiIds,
+    org: 'jra' | 'nar',
+): Promise<RaceDetail[]> => {
+    const results = await Promise.allSettled(
+        kaisai[org].map((race_id: string) =>
+            fetchDataAndRenderMarkdown(race_id, org),
+        ),
+    )
+
+    return results
+        .map((res: PromiseSettledResult<RaceDetail>) =>
+            res.status === 'fulfilled' ? res.value : false,
+        )
+        .filter(isRaceDetail)
+}
+
+const fetchDataAndRenderMarkdown = async (
+    race_id: string,
+    org: 'jra' | 'nar',
+): Promise<RaceDetail> => {
+    const race_detail = await getRaceDetail(race_id, org)
+    await renderToMarkdown(race_detail)
+    return race_detail
+}
+
+// 02. 得られた race_id をもとに、メタデータ情報を作成
+const getRaceDetail = async (race_id: string, org: 'jra' | 'nar') => {
+    const entrypoint = 'getRaceDetail'
+    const url = `${ENDPOINT}/${entrypoint}`
+    const query = new URLSearchParams({
+        race_id, // string
+        org,
+        key: process.env.API_KEY,
+    })
+    const response = await fetch(`${url}?${query}`)
+    const data = await response.json()
+
+    if (isRaceDetail(data)) {
+        return data
+    } else {
+        throw new Error(
+            '[getRaceDetail] Invalid value is returned from server.' +
+                'Check that the vars `url` and `query` are set to the correct values.',
+        )
+    }
+}
+
+// 03. このオブジェクトをもとに、各 md ファイルに出力
+const renderToMarkdown = async (race_detail: RaceDetail) => {
+    // race_id, org, metadata, entries をもとに、md 記事を作成する
+    // 野望：骨組みを渡して、Chat-GPT に執筆させる ←  あくまで野望なので、まず枠組みを完成させてから！
+    // 現実的な案：過去データを取ってきて、統計情報の可視化（有利不利をわかりやすくする等）
+    // race_detail があるので、df.query() にいい感じのリクエストができるはず
+    // →　そこから過去データは取れるのでは？
+    // 新馬は無理としても、それ以外の馬なら競走成績が取得できる
+    // 新馬も peds は得られるので、それをレーティングすることもできるはず
+    // この辺の構想は、過去のブログ記事を回顧するべきか
+
+    const { race_id, org, metadata, entries } = race_detail
+    const { name: title } = metadata
+    const { R, direction, distance, regulation, schedule, track, timestamp } =
+        metadata
+    const R_i = R.padStart(2, '0')
+    const place = schedule.replace(/\d+回*/i, '').replace(/\d+(日目)*/i, '')
+    const start_time = timestamp.split(/\s/).pop().slice(0, 5)
+    const description = `発走時刻 ${start_time} ${track} ${direction} ${distance}m`
+
+    const promised_records = await Promise.allSettled(
+        entries.map((entry) =>
+            getRecordsFromPreviousResult(entry.horse_id, timestamp),
+        ),
+    )
+
+    const records = promised_records
+        .map((res) => (res.status === 'fulfilled' ? res.value : false))
+        .filter(isHorseRecord)
+
+    const props = {
+        title: `${title}【R${R_i}】`,
+        records,
+        distance,
+        description:
+            regulation.length !== 0
+                ? `${description} 〈${regulation}〉`
+                : description,
+        frontmatter: {
+            page_id: race_id,
+            page_title: `【R${R_i}】${title}【${place}】`,
+            pagination_label: `【${place}R${R_i}】${title}`,
+            sidebar_label: title,
+            date: timestamp.split(/\s+/).shift(),
+            keywords: [`${place}競馬`, 'データ分析'],
+            description: `【R${R_i}】 ${description} 【${place}】`,
+            thumbnail: 'https://example.com/image.png',
+            slug: R_i,
+            tags: [
+                place,
+                `R${R_i}`,
+                `${track}${direction}${distance}m`,
+                regulation,
+            ],
+        },
+        entries,
+        date_today: timestamp.split(/\s+/).shift(),
+    }
+
+    const rendered_text = await eta.renderAsync('./each_race/template', props)
+    const place_code = race_id.slice(4, 6)
+    const filepath = makeFilepath(race_id, timestamp, place_code)
+
+    try {
+        // tips: parent_dir が存在しないと、ファイルに書き込めない
+        await mkdir(path.dirname(filepath), { recursive: true })
+        await writeFile(filepath, rendered_text)
+
+        console.log('\n\n', rendered_text, '\n\n') // for debug
+    } catch (err) {
+        console.error('An unexpected error has occurred: ', err)
+    }
+}
+
+const getRecordsFromPreviousResult = async (
+    horse_id: string,
+    timestamp: string,
+): Promise<{ horse_id: string; results: ResultData[] }> => {
+    const entrypoint = 'entries'
+    const url = `${ENDPOINT}/${entrypoint}`
+    const query = new URLSearchParams({
+        q: `horse_id == "${horse_id}" and timestamp < "${timestamp}"`,
+        key: process.env.API_KEY,
+    })
+    const response = await fetch(`${url}?${query}`)
+    const { data } = await response.json()
+
+    if (!Array.isArray(data)) {
+        throw new Error(
+            '[getRecordsFromPreviousResult] Invalid value is returned from server.' +
+                'Check that the vars `url` and `query` are set to the correct values.',
+        )
+    } else {
+        const results = data.filter(isResultData)
+
+        results.sort(
+            (a, b) =>
+                // order by desc
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime(),
+        )
+
+        return { horse_id, results }
+    }
+}
+
+// finally ...
+const promise = main()
+
+// Run a `promise`ed processes !
+promise
+    .then(() => {
+        console.log('completed.')
+    })
+    .catch((error) => {
+        console.error(error)
+    })

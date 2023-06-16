@@ -1,0 +1,26 @@
+---
+title: "<%= it.page_title %>"
+<% if ('pagination_label' in it) {%>
+pagination_label: "<%= it.pagination_label %>"
+<% } %>
+<% if ('sidebar_label' in it) {%>
+sidebar_label: "<%= it.sidebar_label %>"
+<% } %>
+<% if ('sidebar_position' in it) {%>
+sidebar_position: <%= it.sidebar_position %>
+<% } %>
+
+description: "<%= it.date %> の詳細情報を掲載しています"
+keywords:
+<% it.keywords.forEach(function(keyword){ %>
+  - "<%= keyword %>"
+<% }) %>
+image: "<%= it.thumbnail %>"
+<% if(Array.isArray(it.tags) && it.tags.length !== 0) { %>
+tags:
+<% it.tags.forEach(function(tag){ %>
+  - "<%= tag %>"
+<% }) %>
+<% } %>
+<% /* draft: true */ %>
+---

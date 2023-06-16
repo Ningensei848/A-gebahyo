@@ -1,0 +1,46 @@
+<%~ await includeAsync('./frontmatter', it.frontmatter) %>
+<% const br = "\n" %>
+<%= br %>
+# <%= it.title %>
+
+
+> <%= it.description %>
+
+
+<% /* 出走馬の一覧 -------------------------------------------------------- */ %>
+## 出走馬の一覧
+
+<% it.entries.forEach((entry, index) => {%>
+<% const h1 = `${entry.waku}枠${entry.umaban}番: ${entry.horse_name}` %>
+- [<%= entry.horse_name %>（<%= entry.jockey_name %>）](#<%= h1.replace(/\s/, "-").replace(/:/, "") %>)
+<% }) %>
+
+<% /* 出走馬ごとの詳細 ----------------------------------------------------- */ %>
+
+<% it.entries.forEach((entry, index) => {%><% /* ------------------------ */ %>
+## <%= entry.waku %>枠<%= entry.umaban %>番: <%= entry.horse_name %>
+
+
+> cf. https://db.netkeiba.com/horse/<%= entry.horse_id %>
+
+
+（騎手: [<%= entry.jockey_name %>](https://db.netkeiba.com/jockey/<%= entry.jockey_id %>)
+ / 調教師: [<%= entry.trainer_name %>](https://db.netkeiba.com/trainer/<%= entry.trainer_id %>)）
+
+
+<%   const { results } = it.records.find(({ horse_id }) => horse_id == entry.horse_id) %>
+<%   if (results.length > 0){ %>
+<%~    include('./result_table',  { results }) %>
+<%   } %>
+
+<% /* TODO: rechart.js で色々描画 */ %>
+<% /* weight, gain → 過去データがほしい */ %>
+
+<% /* 血統情報 */ %>
+<% /* https://db.netkeiba.com/horse/ped/2001104313/ */ %>
+
+<% }) %><% /* End it.entries.forEach -------------------------------------*/ %>
+
+<% /* レースの統計分析 ----------------------------------------------------- */ %>
+
+<% /* まとめと予想 -------------------------------------------------------- */ %>

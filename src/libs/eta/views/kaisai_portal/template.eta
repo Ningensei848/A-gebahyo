@@ -1,0 +1,8 @@
+<%~ await includeAsync('./frontmatter', it.frontmatter) %>
+
+# <%= it.title %>
+
+<%~ await includeAsync('./raceList', it.race_list) %>
+
+<% /* 検索機能（ページ内のみ？） */ %>
+
