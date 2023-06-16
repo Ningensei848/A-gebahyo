@@ -212,6 +212,7 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
         .filter(isHorseRecord)
 
     const props = {
+        race_id,
         title: `${title}【R${R_i}】`,
         records,
         distance,
