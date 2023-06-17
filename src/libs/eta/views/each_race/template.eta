@@ -1,6 +1,11 @@
 <%~ await includeAsync('./frontmatter', it.frontmatter) %>
+
 <% const br = "\n" %>
 <% const nl = "\n\n" %>
+
+<% /* import components ------------------------------------------------- */ %>
+import WeightTransitionGraph from '@site/src/components/WeightTransitionGraph'
+<% /* ------------------------------------------------------------------- */ %>
 
 # <%= it.title %>
 <%= nl %>
@@ -23,7 +28,22 @@
 <%= nl %>
 （騎手: [<%= entry.jockey_name %>](https://db.netkeiba.com/jockey/<%= entry.jockey_id %>)
  / 調教師: [<%= entry.trainer_name %>](https://db.netkeiba.com/trainer/<%= entry.trainer_id %>)）
-<%= br %>
+<%= nl %>
+
+<%   const data = JSON.stringify(it.data[entry.horse_id], null, "\t") %>
+<%   if (entry.horse_id.match(/\w{10}/i)){ %><% /* ---------------------- */ %>
+export const data_<%= entry.horse_id %> = <%= data %><%= br %>
+
+<WeightTransitionGraph
+    id='weight-transition-<%= entry.horse_id %>'
+    width='100%'
+    height='100%'
+    minHeight={250}
+    chartKeywords={['weight', 'impost_ratio']}
+    data={data_<%= entry.horse_id %>}
+/>
+<%= nl %>
+<%  } %><% /* End if ---------------------------------------------------- */ %>
 
 <%   const { results } = it.records.find(({ horse_id }) => horse_id === entry.horse_id) %>
 <%   if (results.length > 0){ %>

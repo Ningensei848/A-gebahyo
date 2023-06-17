@@ -18,3 +18,7 @@ export const makeFilepath = (
         ? `${target_dir}/${race_id}.mdx`
         : `${target_dir}/${place}/${race_id}.mdx`
 }
+
+export const isNumber = (arg: any): arg is Number => {
+    return typeof arg === 'number' && isFinite(arg)
+}

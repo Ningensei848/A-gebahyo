@@ -3,11 +3,11 @@ import * as path from 'path'
 import { mkdir, writeFile } from 'fs/promises'
 
 import { default as constructPortal } from './portal'
+import { isNumber, makeFilepath } from './util'
 
 // load `.env` file -----------------------------------------------------------
 // cf. https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import * as dotenv from 'dotenv'
-import { makeFilepath } from './util'
 dotenv.config()
 // ----------------------------------------------------------------------------
 
@@ -15,7 +15,10 @@ const ENDPOINT = process.env.ENDPOINT
 
 process.env.TZ = 'Asia/Tokyo'
 
-const eta = new Eta({ views: path.join(__dirname, 'views') })
+const eta = new Eta({
+    autoEscape: false,
+    views: path.join(__dirname, 'views'),
+})
 
 /**
  * User Defined Type Guard!
@@ -202,9 +205,11 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
     const description = `発走時刻 ${start_time} ${track} ${direction} ${distance}m`
 
     const promised_records = await Promise.allSettled(
-        entries.map((entry) =>
-            getRecordsFromPreviousResult(entry.horse_id, timestamp),
-        ),
+        entries
+            .filter((entry) => entry.horse_id.match(/\w{10}/i))
+            .map((entry) =>
+                getRecordsFromPreviousResult(entry.horse_id, timestamp),
+            ),
     )
 
     const records = promised_records
@@ -215,6 +220,7 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
         race_id,
         title: `${title}【R${R_i}】`,
         records,
+        data: getChartData(records), // horse_id をキーとするオブジェクトを返す
         distance,
         description:
             regulation.length !== 0
@@ -250,7 +256,7 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
         await mkdir(path.dirname(filepath), { recursive: true })
         await writeFile(filepath, rendered_text)
 
-        console.log('\n\n', rendered_text, '\n\n') // for debug
+        // console.log('\n\n', rendered_text, '\n\n') // for debug
     } catch (err) {
         console.error('An unexpected error has occurred: ', err)
     }
@@ -286,6 +292,33 @@ const getRecordsFromPreviousResult = async (
 
         return { horse_id, results }
     }
+}
+
+// horse_id をキーとするオブジェクトを返す
+// 値の中身は、「オブジェクトの配列」
+const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
+    const key_and_value_list = records.map((record) => {
+        const { horse_id, results } = record
+        const data = results.map((result) => {
+            const { weight, impost, timestamp } = result
+            return {
+                name: timestamp.split(/\s+|T/).shift(),
+                weight,
+                impost_ratio:
+                    isNumber(impost) && isNumber(weight)
+                        ? ((impost / weight) * 100).toPrecision(3)
+                        : null,
+            }
+        })
+
+        data.sort(
+            (a, b) =>
+                // order by asc
+                new Date(a.name).getTime() - new Date(b.name).getTime(),
+        )
+        return [horse_id, data]
+    })
+    return Object.fromEntries(key_and_value_list)
 }
 
 // finally ...
