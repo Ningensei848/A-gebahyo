@@ -13,6 +13,9 @@
 -   [x] ページ共有機能 → docs 向けに Swizzling (cf. DocItem) する
 -   [x] twitter 検索への導線をつくるとか → 　馬名のハッシュタグ化
 -   [ ] ReCharts での可視化
+    - [x] Hello world
+    - [x] 自動生成
+    - [ ] 複勝圏内をカスタムドット  https://recharts.org/en-US/examples/CustomizedDotLineChart
 -   [ ] `prism-react-renderer` のバージョンを上げるかどうか検証
 
 ## あとまわし
@@ -38,18 +41,36 @@
 -   jockey, trainer ごとのページをつくる
     -   race ではなく、人に注目して作成
 -   脚質判定
+-   entries(result) における `diff` は、先頭との差にしたい
+-   ReCharts で ToolTip をカスタマイズして見やすく（体重データに競走結果を乗せるとか）
 
-## だいたいいい感じになってきた
+-   新馬戦の場合は過去データがないので、`/profile` , `/pedigree` からデータを取る
 
--   コンテンツの充実
--   `TODO: ` を潰していけばだいたい良さそう
--   きれいに書こうとしない、それはあと
+## グラフでほしいもの
 
--   メタな部分はおおよそ終わったので、レースごとの記事の中身を充実させることに注力
+### LineChart:
+
+-   weight, impost: 体重遷移 + 体重に占める斤量の割合　を示すグラフ
+-   rank, rank_at_corner: 縦軸を順位、横軸を 1-4 コーナー + ゴール地点として、順位の遷移を表示するグラフ
+-   laptime, pavemaker で先頭との比較…をしたいが、距離が異なってしまう問題を解決できない
+
+### PieChart
+
+-   jockey_name, rank: 騎手別割合(+ 勝利割合)
+-   direction, rank: 左右どちらが得意なのか
+-   distance, rank: どの距離が得意か
+-   going, rank: どの馬場状態が得意か
+-   course_code, rank: どの会場が得意か（raca_id を利用したほうがいいかも）
+
+## Github Actions
+
+-   repoA: eta.js で MDX 生成 & index.mdx だけ main にプッシュ & `/docs/YYYY/*` を repoB に push
+-   repoB: repoA を clone してきて main にある `/docs/YYYY/*` をビルド & ホスト先にデプロイ
+
+repoA は public にして、repoB は private にしておく
+（ロジックは公開するが、コンテンツはあくまで非公開）
 
 ## ぶつかった壁
-
-→ 　実装完了 cf. `/getHorseResult`
 
 -   [ ] 毎回コマンド実行するたびに、数十〜数百回のリクエストが走り、かなり出費が痛い
     -   ENV.dev みたいな感じで、一部のファイルのみ出力するように設定したい
@@ -59,6 +80,7 @@
 <details>
 <summary>完了済みタスクとか諸々</summary>
 
+-   [x] 実装完了 cf. `/getHorseResult`
 -   [x] ~~各馬ごとの過去成績を参照する際に、 `entries` のデータだけを引っこ抜くと `metadata` に紐づく情報が一発で得られない…~~
     -   [x] ~~`entries.race_id` を参照して、entries + metadata を join したデータを返す処理が必要~~
     -   [x] ~~`metadata` のキーを作ってそこにぶら下げるというよりは、`RaceMetadata` + `ResultData` を作るイメージ~~
