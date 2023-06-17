@@ -96,7 +96,7 @@ const Telegram = (props: CommonProps): JSX.Element => (
     </TelegramShareButton>
 )
 
-const MomoizedSocialButtons = React.memo(function SocialButtons({
+const MemoizedSocialButtons = React.memo(function SocialButtons({
     href,
     title,
     onHover: handleEvent,
@@ -146,7 +146,7 @@ const NextShareButtons = ({
     }, [url])
 
     return (
-        <MomoizedSocialButtons
+        <MemoizedSocialButtons
             href={url}
             title={subject}
             onHover={handleEvent}
