@@ -13,10 +13,12 @@
 -   [x] ページ共有機能 → docs 向けに Swizzling (cf. DocItem) する
 -   [x] twitter 検索への導線をつくるとか → 　馬名のハッシュタグ化
 -   [ ] ReCharts での可視化
-    - [x] Hello world
-    - [x] 自動生成
-    - [ ] 複勝圏内をカスタムドット  https://recharts.org/en-US/examples/CustomizedDotLineChart
+    -   [x] Hello world
+    -   [x] 自動生成
+    -   [ ] 複勝圏内をカスタムドット https://recharts.org/en-US/examples/CustomizedDotLineChart
+        -   https://iconmonstr.com/star-3-svg/
 -   [ ] `prism-react-renderer` のバージョンを上げるかどうか検証
+-   [x] （最優先）JRA 出力されてない問題の解決
 
 ## あとまわし
 
@@ -50,8 +52,8 @@
 
 ### LineChart:
 
--   weight, impost: 体重遷移 + 体重に占める斤量の割合　を示すグラフ
--   rank, rank_at_corner: 縦軸を順位、横軸を 1-4 コーナー + ゴール地点として、順位の遷移を表示するグラフ
+-   [ ] weight, impost: 体重遷移 + 体重に占める斤量の割合　を示すグラフ
+-   [ ] rank, rank_at_corner: 縦軸を順位、横軸を 1-4 コーナー + ゴール地点として、順位の遷移を表示するグラフ
 -   laptime, pavemaker で先頭との比較…をしたいが、距離が異なってしまう問題を解決できない
 
 ### PieChart
@@ -72,8 +74,15 @@ repoA は public にして、repoB は private にしておく
 
 ## ぶつかった壁
 
--   [ ] 毎回コマンド実行するたびに、数十〜数百回のリクエストが走り、かなり出費が痛い
-    -   ENV.dev みたいな感じで、一部のファイルのみ出力するように設定したい
+-   [ ] Saturday なのに JRA が表示されていない！
+    -   horse_id が振られていないばんえい競馬を除去するために `entries`　を弄ったからか？？？
+
+```
+{
+    "error": "ValueError",
+    "message": "resource not found."
+}
+```
 
 ## その他
 
@@ -84,5 +93,8 @@ repoA は public にして、repoB は private にしておく
 -   [x] ~~各馬ごとの過去成績を参照する際に、 `entries` のデータだけを引っこ抜くと `metadata` に紐づく情報が一発で得られない…~~
     -   [x] ~~`entries.race_id` を参照して、entries + metadata を join したデータを返す処理が必要~~
     -   [x] ~~`metadata` のキーを作ってそこにぶら下げるというよりは、`RaceMetadata` + `ResultData` を作るイメージ~~
+-   [x] ~~毎回コマンド実行するたびに、数十〜数百回のリクエストが走り、かなり出費が痛い~~
+    -   ~~ENV.dev みたいな感じで、一部のファイルのみ出力するように設定したい~~
+    -   KaisaiIds を メインレースのみに絞った
 
 </details>

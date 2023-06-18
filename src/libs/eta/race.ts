@@ -127,6 +127,15 @@ const getKaisaiList = async (yyyymmdd: string): Promise<KaisaiIds> => {
     const data = await response.json()
 
     if (isKaisaiIds(data)) {
+        // `production` じゃない場合、race_id 末尾が 11 のものだけを対象とする
+        if (process.env.NODE_ENV !== 'production') {
+            Object.keys(data).forEach((key) => {
+                const values_in_not_prod = data[key].filter((v) =>
+                    /11$/.test(v),
+                )
+                data[key] = values_in_not_prod
+            })
+        }
         return data
     } else {
         throw new Error(
