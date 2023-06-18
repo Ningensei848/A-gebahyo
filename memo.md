@@ -52,7 +52,7 @@
 
 ### LineChart:
 
--   [ ] weight, impost: 体重遷移 + 体重に占める斤量の割合　を示すグラフ
+-   [x] weight, impost: 体重遷移 + 体重に占める斤量の割合　を示すグラフ
 -   [ ] rank, rank_at_corner: 縦軸を順位、横軸を 1-4 コーナー + ゴール地点として、順位の遷移を表示するグラフ
 -   laptime, pavemaker で先頭との比較…をしたいが、距離が異なってしまう問題を解決できない
 
@@ -74,16 +74,6 @@ repoA は public にして、repoB は private にしておく
 
 ## ぶつかった壁
 
--   [ ] Saturday なのに JRA が表示されていない！
-    -   horse_id が振られていないばんえい競馬を除去するために `entries`　を弄ったからか？？？
-
-```
-{
-    "error": "ValueError",
-    "message": "resource not found."
-}
-```
-
 ## その他
 
 <details>
@@ -96,5 +86,8 @@ repoA は public にして、repoB は private にしておく
 -   [x] ~~毎回コマンド実行するたびに、数十〜数百回のリクエストが走り、かなり出費が痛い~~
     -   ~~ENV.dev みたいな感じで、一部のファイルのみ出力するように設定したい~~
     -   KaisaiIds を メインレースのみに絞った
+-   [x] ~~Saturday なのに JRA が表示されていない！~~
+    -   ~~horse_id が振られていないばんえい競馬を除去するために `entries`　を弄ったからか？？？~~
+    -   修正時に raceDomain を org そのまま渡していただけだった( JRA のときは `race`)
 
 </details>

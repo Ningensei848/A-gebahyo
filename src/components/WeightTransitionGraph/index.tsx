@@ -8,7 +8,22 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
+    Dot,
 } from 'recharts'
+
+// 公式でもきちんと型定義していない
+// cf. https://github.com/recharts/recharts/blob/7a0950572e89b7bf11d8c44bab6af7b8303e2022/src/cartesian/Line.tsx#L311-L332
+type CustomizedDotProps = {
+    key?: string
+    r?: number
+    value?: any
+    dataKey?: string | number
+    cx?: number
+    cy?: number
+    index?: number
+    // data で与えた要素の一つ一つが含まれている
+    payload?: { [key: string]: any }
+}
 
 interface WeightTransitionGraphProps {
     id?: string | number
@@ -18,6 +33,45 @@ interface WeightTransitionGraphProps {
     minHeight?: string | number
     chartKeywords: string[]
     data: Array<{ [key: string]: string | number }>
+}
+
+const VectorizedStar: React.FC<{
+    cx: number
+    cy: number
+    color: string
+}> = (props) => (
+    <svg
+        // xmlns='http://www.w3.org/2000/svg'  // html に埋め込んで使う場合には不要
+        x={props.cx - 10}
+        y={props.cy - 10}
+        width={16}
+        height={16}
+        fill={props.color}
+        viewBox='0 0 24 24'
+    >
+        <path d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z' />
+    </svg>
+)
+
+const CustomizedDot: React.FC<CustomizedDotProps> = (props) => {
+    const { cx, cy, payload } = props // value はその dot に与えられた値
+    const { rank } = payload // payload は value を含む元データの一要素
+
+    // const className = classNames('recharts-line-dot', option ? (option as DotProps).className : '');
+    const className = 'recharts-line-dot'
+
+    // rank がそもそも未定義な場合、通常の Dot を返す
+    if (!rank) return <Dot {...props} className={className} />
+
+    if (rank == 1) {
+        return <VectorizedStar cx={cx} cy={cy} color='goldenrod' />
+    } else if (rank == 2) {
+        return <VectorizedStar cx={cx} cy={cy} color='silver' />
+    } else if (rank == 3) {
+        return <VectorizedStar cx={cx} cy={cy} color='chocolate' />
+    } else {
+        return <Dot {...props} className={className} />
+    }
 }
 
 const WeightTransitionGraph: React.FC<WeightTransitionGraphProps> = (
@@ -34,8 +88,8 @@ const WeightTransitionGraph: React.FC<WeightTransitionGraphProps> = (
                 data={data}
                 margin={{
                     top: 5,
-                    right: 30,
-                    left: 20,
+                    right: 9, // 30,
+                    left: 6, // 20,
                     bottom: 5,
                 }}
             >
@@ -61,6 +115,7 @@ const WeightTransitionGraph: React.FC<WeightTransitionGraphProps> = (
                     unit='kg'
                     activeDot={{ r: 8 }}
                     connectNulls
+                    dot={<CustomizedDot />}
                 />
                 <Line
                     yAxisId='right'
