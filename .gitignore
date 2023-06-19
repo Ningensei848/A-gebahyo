@@ -388,3 +388,6 @@ $RECYCLE.BIN/
 
 src/plugins/**/*.js
 src/libs/**/*.js
+
+# auto generated docs
+content/docs/202*/

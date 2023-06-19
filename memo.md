@@ -84,6 +84,20 @@
 repoA は public にして、repoB は private にしておく
 （ロジックは公開するが、コンテンツはあくまで非公開）
 
+### repo A (A-gebahyo)
+
+-   `.gitignore` で `content/docs/202*` を除く
+-   GitHub Actions は未定
+-   GitHub Pages は無し
+
+### repo B (Content Repository)
+
+-   `content/docs/202*` のみを置く
+-   GitHub Actions を毎日実行
+    -   checkout 後に repo A を clone する & `content/docs/` 以下に移動させてビルド
+    -   ビルド（記事生成＋ブログ出力）
+-   GitHub Pages を Private の上で設定
+
 ## ぶつかった壁
 
 -   [ ] ばんえい競馬を排除するロジックの構築
