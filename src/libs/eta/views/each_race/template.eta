@@ -4,7 +4,8 @@
 <% const nl = "\n\n" %>
 
 <% /* import components ------------------------------------------------- */ %>
-import WeightTransitionGraph from '@site/src/components/WeightTransitionGraph'
+import WeightTransition from '@site/src/components/visualise/WeightTransition'
+import RankTransition from '@site/src/components/visualise/RankTransition'
 <% /* ------------------------------------------------------------------- */ %>
 
 # <%= it.title %>
@@ -34,7 +35,10 @@ import WeightTransitionGraph from '@site/src/components/WeightTransitionGraph'
 <%   if (entry.horse_id.match(/\w{10}/i)){ %><% /* ---------------------- */ %>
 export const data_<%= entry.horse_id %> = <%= data %><%= br %>
 
-<WeightTransitionGraph
+#### 馬体重
+<%= nl %>
+
+<WeightTransition
     id='weight-transition-<%= entry.horse_id %>'
     width='100%'
     height='100%'
@@ -43,7 +47,19 @@ export const data_<%= entry.horse_id %> = <%= data %><%= br %>
     data={data_<%= entry.horse_id %>}
 />
 <%= nl %>
-<%  } %><% /* End if ---------------------------------------------------- */ %>
+
+#### コーナー順位
+<%= nl %>
+
+<RankTransition
+    id='rank-transition-<%= entry.horse_id %>'
+    width='100%'
+    height='100%'
+    minHeight={500}
+    data={data_<%= entry.horse_id %>}
+/>
+<%= nl %>
+<%  } %><% /* End if (entry.horse_id.match(/\w{10}/i)) ------------------ */ %>
 
 <%   const { results } = it.records.find(({ horse_id }) => horse_id === entry.horse_id) %>
 <%   if (results.length > 0){ %>

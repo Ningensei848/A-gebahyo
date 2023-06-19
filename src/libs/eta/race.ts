@@ -309,10 +309,21 @@ const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
     const key_and_value_list = records.map((record) => {
         const { horse_id, results } = record
         const data = results.map((result) => {
-            const { weight, impost, timestamp, rank } = result
+            const {
+                weight,
+                impost,
+                timestamp,
+                race_id,
+                rank,
+                rank_at_corner,
+                waku,
+            } = result
             return {
                 name: timestamp.split(/\s+|T/).shift(),
+                race_id,
                 rank,
+                rank_at_corner,
+                waku,
                 weight,
                 impost_ratio:
                     isNumber(impost) && isNumber(weight)
