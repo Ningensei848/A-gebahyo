@@ -8,7 +8,7 @@
 <% it.results.forEach((result, ix) => { %>
 <%   const { rank, time, distance, rank_at_corner, max_speed, impost } = result %>
 <%   const { timestamp, weight, gain, track, going, jockey_name } = result %>
-<%   if (!rank.match(/\d+/)) { return; } %>
+<%   if (!/\d+/.test(rank)) { return; } %>
 <%   const date = timestamp.split(/T/).shift() %>
 <%   const goal_time = `${Math.floor(time / 60)}m${(time % 60).toPrecision(3)}s` %>
 <%   const items = [ %>

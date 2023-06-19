@@ -25,7 +25,7 @@ type CustomizedDotProps = {
     payload?: { [key: string]: any }
 }
 
-interface WeightTransitionGraphProps {
+interface WeightTransitionProps {
     id?: string | number
     width?: string | number
     height?: string | number
@@ -74,9 +74,7 @@ const CustomizedDot: React.FC<CustomizedDotProps> = (props) => {
     }
 }
 
-const WeightTransitionGraph: React.FC<WeightTransitionGraphProps> = (
-    props,
-) => {
+const WeightTransition: React.FC<WeightTransitionProps> = (props) => {
     // width, minHeight を変数にすれば、いい感じにサイズ調整ができそう
     const { chartKeywords, data } = props
 
@@ -101,8 +99,13 @@ const WeightTransitionGraph: React.FC<WeightTransitionGraphProps> = (
                 />
                 <YAxis
                     yAxisId='right'
-                    domain={['dataMin - 0.5', 'dataMax + 0.5']}
+                    // domain={['dataMin - 0.5', 'dataMax + 0.5']}
+                    domain={([dataMin, dataMax]) => {
+                        const delta = dataMax - dataMin
+                        return [dataMin - delta / 4, dataMax + delta / 4]
+                    }}
                     orientation='right'
+                    unit='%'
                 />
                 <Tooltip />
                 <Legend />
@@ -131,4 +134,4 @@ const WeightTransitionGraph: React.FC<WeightTransitionGraphProps> = (
     )
 }
 
-export default WeightTransitionGraph
+export default WeightTransition
