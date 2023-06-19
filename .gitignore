@@ -391,3 +391,8 @@ src/libs/**/*.js
 
 # auto generated docs
 content/docs/202*/
+
+# submodule ?
+content/docs/.gitignore
+content/docs/package*.json
+content/docs/README.md

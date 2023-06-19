@@ -7,8 +7,15 @@ import { isNumber, makeFilepath } from './util'
 
 // load `.env` file -----------------------------------------------------------
 // cf. https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-import * as dotenv from 'dotenv'
-dotenv.config()
+if (process.env.NODE_ENV !== 'production') {
+    // import * as dotenv from 'dotenv'
+    // dotenv.config()
+    // dynamic imports
+    // cf. https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports
+    import('dotenv').then((dotenv) => {
+        dotenv.config()
+    })
+}
 // ----------------------------------------------------------------------------
 
 const ENDPOINT = process.env.ENDPOINT
