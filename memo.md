@@ -12,10 +12,10 @@
 
 -   [x] ページ共有機能 → docs 向けに Swizzling (cf. DocItem) する
 -   [x] twitter 検索への導線をつくるとか → 　馬名のハッシュタグ化
--   [ ] ReCharts での可視化
+-   [x] ReCharts での可視化
     -   [x] Hello world
     -   [x] 自動生成
-    -   [ ] 複勝圏内をカスタムドット https://recharts.org/en-US/examples/CustomizedDotLineChart
+    -   [x] 複勝圏内をカスタムドット https://recharts.org/en-US/examples/CustomizedDotLineChart
         -   https://iconmonstr.com/star-3-svg/
 -   [ ] `prism-react-renderer` のバージョンを上げるかどうか検証
 -   [x] （最優先）JRA 出力されてない問題の解決
@@ -78,11 +78,28 @@
 
 ## Github Actions
 
+セキュリティのやつ：　https://engineering.mercari.com/blog/entry/20230609-github-actions-guideline/
+
 -   repoA: eta.js で MDX 生成 & index.mdx だけ main にプッシュ & `/docs/YYYY/*` を repoB に push
 -   repoB: repoA を clone してきて main にある `/docs/YYYY/*` をビルド & ホスト先にデプロイ
 
 repoA は public にして、repoB は private にしておく
 （ロジックは公開するが、コンテンツはあくまで非公開）
+
+-   GitHub Actions で コンテンツ生成
+-   Cloudflare Pages でビルド&デプロイ
+
+    -   files limit が 20000 なので、案外早く利用不能になりそう
+
+-   GitHub Pages の場合はもっと少なくて、1GB に達してはいけないようだ
+
+-   結局のところ、長期利用を考えると上記以外のクラウドサービスを利用することになりそうだ
+-   ローンチから一年までは Cloudflare pages それ以降は GCS + Cloud CDN みたいな構成か
+
+-   eta の部分は計算機が貧弱でもある程度耐えるが、ビルド部分には強力な物が必要
+-   スポット利用できる仕組みを考案せねばならない……
+    -   Cloud Build ? Cloud Deploy ?
+    -   GitHub x GCP は OIDC 連携するとセキュリティ的に安心
 
 ### repo A (A-gebahyo)
 
