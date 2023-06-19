@@ -5,7 +5,9 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 // load `.env` file under the current dirctory --------------------------------
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
 // ----------------------------------------------------------------------------
 
 const { default: remarkEmbedder } = require('@remark-embedder/core')
