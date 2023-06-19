@@ -273,7 +273,7 @@ const config = {
                     //   position: 'left',
                     //   label: 'Tutorial',
                     // },
-                    // {to: '/blog', label: 'Blog', position: 'left'},
+                    { to: '/about', label: 'about', position: 'left' },
                     {
                         href: 'https://zenn.dev/ningensei848',
                         position: 'right',

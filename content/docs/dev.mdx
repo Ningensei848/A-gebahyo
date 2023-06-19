@@ -1,0 +1,179 @@
+---
+id: development_index
+draft: true # only be available during development.
+---
+
+import WeightTransition from '@site/src/components/visualise/WeightTransition'
+import RankTransition from '@site/src/components/visualise/RankTransition'
+
+export const data = [
+	{
+		"name": "2020-09-19",
+		"race_id": "202007020305",
+		"rank": "8",
+		"rank_at_corner": "2-2",
+		"waku": "8",
+		"weight": 476,
+		"impost_ratio": "11.3"
+	},
+	{
+		"name": "2020-10-11",
+		"race_id": "202005040202",
+		"rank": "4",
+		"rank_at_corner": "1-2",
+		"waku": "5",
+		"weight": 480,
+		"impost_ratio": "11.5"
+	},
+	{
+		"name": "2020-11-08",
+		"race_id": "202005050203",
+		"rank": "9",
+		"rank_at_corner": "2-3",
+		"waku": "6",
+		"weight": 480,
+		"impost_ratio": "11.5"
+	},
+	{
+		"name": "2021-02-21",
+		"race_id": "202110020403",
+		"rank": "8",
+		"rank_at_corner": "4-6",
+		"waku": "4",
+		"weight": 470,
+		"impost_ratio": "11.3"
+	},
+	{
+		"name": "2021-03-07",
+		"race_id": "202110020806",
+		"rank": "15",
+		"rank_at_corner": "3-3-8-14",
+		"waku": "5",
+		"weight": 476,
+		"impost_ratio": "11.1"
+	},
+	{
+		"name": "2021-04-03",
+		"race_id": "202106030304",
+		"rank": "8",
+		"rank_at_corner": "10-10",
+		"waku": "2",
+		"weight": 472,
+		"impost_ratio": "11.2"
+	},
+	{
+		"name": "2021-05-13",
+		"race_id": "202142051307",
+		"rank": "1",
+		"rank_at_corner": "1-1-1-1",
+		"waku": "8",
+		"weight": 471,
+		"impost_ratio": "11.9"
+	},
+	{
+		"name": "2021-12-04",
+		"race_id": "202106050107",
+		"rank": "4",
+		"rank_at_corner": "1-2",
+		"waku": "6",
+		"weight": 474,
+		"impost_ratio": "11.2"
+	},
+	{
+		"name": "2021-12-28",
+		"race_id": "202106050908",
+		"rank": "12",
+		"rank_at_corner": "2-2",
+		"waku": "8",
+		"weight": 480,
+		"impost_ratio": "11.0"
+	},
+	{
+		"name": "2022-02-13",
+		"race_id": "202210020208",
+		"rank": "12",
+		"rank_at_corner": "9-12",
+		"waku": "3",
+		"weight": 482,
+		"impost_ratio": "11.2"
+	},
+	{
+		"name": "2022-02-26",
+		"race_id": "202210020503",
+		"rank": "14",
+		"rank_at_corner": "8-12",
+		"waku": "6",
+		"weight": 488,
+		"impost_ratio": "11.1"
+	},
+	{
+		"name": "2022-04-17",
+		"race_id": "202206030806",
+		"rank": "5",
+		"rank_at_corner": "5-5",
+		"waku": "6",
+		"weight": 478,
+		"impost_ratio": "11.5"
+	},
+	{
+		"name": "2022-05-15",
+		"race_id": "202204010407",
+		"rank": "1",
+		"rank_at_corner": "1-1",
+		"waku": "4",
+		"weight": 480,
+		"impost_ratio": "11.5"
+	},
+	{
+		"name": "2022-07-31",
+		"race_id": "202204020212",
+		"rank": "9",
+		"rank_at_corner": "5-6",
+		"waku": "2",
+		"weight": 480,
+		"impost_ratio": "11.5"
+	},
+	{
+		"name": "2022-10-01",
+		"race_id": "202206040812",
+		"rank": "12",
+		"rank_at_corner": "12-14",
+		"waku": "5",
+		"weight": 490,
+		"impost_ratio": "11.2"
+	},
+	{
+		"name": "2022-12-03",
+		"race_id": "202206050112",
+		"rank": "9",
+		"rank_at_corner": "8-11",
+		"waku": "2",
+		"weight": 490,
+		"impost_ratio": "11.4"
+	},
+	{
+		"name": "2023-03-26",
+		"race_id": "202306030212",
+		"rank": "1",
+		"rank_at_corner": "2-2",
+		"waku": "5",
+		"weight": 490,
+		"impost_ratio": "11.4"
+	},
+	{
+		"name": "2023-04-08",
+		"race_id": "202306030510",
+		"rank": "12",
+		"rank_at_corner": "4-3",
+		"waku": "2",
+		"weight": 484,
+		"impost_ratio": "12.0"
+	}
+]
+
+# index page
+
+オッズや人気、配当金といった「人の手が介入するデータ」を排除してデータを見やすくしたいと考えていました
+
+<RankTransition width='100%' height='100%' minHeight={500} data={data} />
+{/* <WeightTransitionGraph width='100%' height='100%' minHeight={200} chartKeywords={['weight', 'impost_ratio']} data={data} /> */}
