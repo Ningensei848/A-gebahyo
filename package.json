@@ -20,7 +20,7 @@
         "lint": "eslint \"{src,tests}/**/*.{ts,tsx}\"",
         "lint-staged": "lint-staged",
         "format": "prettier --ignore-path .gitignore --write './**/*.{js,jsx,ts,tsx,json,css,md,mdx}'",
-        "eta:dev": "npm run compile --dir='libs/eta' && node src/libs/eta/race.js",
+        "eta:dev": "npm run compile --dir='libs/eta' && node src/libs/eta/race.js --yyyymmdd=${npm_config_date}",
         "eta:prod": "NODE_ENV=\"production\" npm run eta:dev"
     },
     "dependencies": {

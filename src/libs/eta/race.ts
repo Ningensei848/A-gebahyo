@@ -1,6 +1,7 @@
 import { Eta } from 'eta'
 import * as path from 'path'
 import { mkdir, writeFile } from 'fs/promises'
+import { parseArgs } from 'node:util'
 
 import { default as constructPortal } from './portal'
 import { isNumber, makeFilepath } from './util'
@@ -8,19 +9,26 @@ import { isNumber, makeFilepath } from './util'
 // load `.env` file -----------------------------------------------------------
 // cf. https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 if (process.env.NODE_ENV !== 'production') {
-    // import * as dotenv from 'dotenv'
-    // dotenv.config()
+    // import 'dotenv/config'
+    require('dotenv').config()
     // dynamic imports
     // cf. https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports
-    import('dotenv').then((dotenv) => {
-        dotenv.config()
-    })
+    // import('dotenv').then((dotenv) => {
+    //     dotenv.config()
+    // })
 }
 // ----------------------------------------------------------------------------
 
 const ENDPOINT = process.env.ENDPOINT
 
 process.env.TZ = 'Asia/Tokyo'
+
+// cf. http://var.blog.jp/archives/86671156.html
+const parsed = parseArgs({
+    options: {
+        yyyymmdd: { type: 'string' },
+    },
+})
 
 const eta = new Eta({
     autoEscape: false,
@@ -91,9 +99,10 @@ const isHorseRecord = (arg: any): arg is HorseRecord => {
     return false
 }
 
-const main = async () => {
+const main = async (dt?: string) => {
     // jra, nar をキーとした辞書になっている
-    const yyyymmdd = getCurrentDate()
+    const yyyymmdd = dt || getTomorrowDate()
+    console.log(`[main] target date is ${dt}`)
     const kaisai = await getKaisaiList(yyyymmdd)
     const races_jra = await parallelizedProcess(kaisai, 'jra')
     const races_nar = await parallelizedProcess(kaisai, 'nar')
@@ -105,17 +114,18 @@ const main = async () => {
     return
 }
 
-const getCurrentDate = (): string => {
+const getTomorrowDate = (): string => {
     // タイムゾーンを 'Asia/Tokyo' に設定
     process.env.TZ = 'Asia/Tokyo'
 
-    // 現在の日付を取得
-    const currentDate = new Date()
+    // 現在の日付を取得し、次の日へ変換
+    const dt = new Date()
+    dt.setDate(dt.getDate() + 1)
 
     // 年、月、日を取得
-    const year = currentDate.getFullYear()
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0')
-    const day = String(currentDate.getDate()).padStart(2, '0')
+    const year = dt.getFullYear()
+    const month = String(dt.getMonth() + 1).padStart(2, '0')
+    const day = String(dt.getDate()).padStart(2, '0')
 
     // 'yyyymmdd' 形式の文字列を生成します
     return `${year}${month}${day}`
@@ -350,7 +360,8 @@ const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
 }
 
 // finally ...
-const promise = main()
+const { yyyymmdd } = parsed.values
+const promise = typeof yyyymmdd === 'undefined' ? main() : main(yyyymmdd)
 
 // Run a `promise`ed processes !
 promise

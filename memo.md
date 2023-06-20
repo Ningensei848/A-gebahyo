@@ -20,8 +20,12 @@
 -   [ ] `prism-react-renderer` のバージョンを上げるかどうか検証
 -   [x] （最優先）JRA 出力されてない問題の解決
 
+
+
 ## あとまわし
 
+- [ ] 前夜から計画を立てるのだから、
+-   もし金曜だったら、土日のレースの記事を生成する機能
 -   `husky` `lint-staged` 等の開発時に便利な機能のカスタマイズ
 -   検索機能
 -   タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent
