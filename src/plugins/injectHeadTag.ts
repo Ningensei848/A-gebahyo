@@ -53,9 +53,9 @@ const plugin = async (context: LoadContext, options: CustomOptions) => {
         injectHtmlTags() {
             return {
                 headTags: [
-                    `<link rel='preconnect' href='//fonts.gstatic.com' crossOrigin='anonymous' />`,
+                    `<link rel='preconnect' href='//fonts.gstatic.com' crossOrigin='anonymous' />\n`,
                     adsense(options.AD_ID),
-                    twttr,
+                    `${twttr}\n`,
                 ],
             }
         },
@@ -65,11 +65,13 @@ const plugin = async (context: LoadContext, options: CustomOptions) => {
             const snipet = `google.com, ${pulisherId}, DIRECT, f08c47fec0942fa0\n`
             await writeFile(`${outDir as string}/ads.txt`, snipet)
 
-            const htmlContent = `google-site-verification: ${options.SITE_VERIFY_ID}.html\n`
-            await writeFile(
-                `${outDir as string}/${options.SITE_VERIFY_ID}.html`,
-                htmlContent,
-            )
+            if (options.SITE_VERIFY_ID) {
+                const htmlContent = `google-site-verification: ${options.SITE_VERIFY_ID}.html\n`
+                await writeFile(
+                    `${outDir as string}/${options.SITE_VERIFY_ID}.html`,
+                    htmlContent,
+                )
+            }
             return // complete
         },
     }

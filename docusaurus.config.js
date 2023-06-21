@@ -283,13 +283,13 @@ const config = {
                         'aria-label': 'Zenn.dev Articles',
                     },
                     {
-                        href: 'https://twitter.com/Ningensei848',
+                        href: 'https://twitter.com/A_gebahyo',
                         position: 'right',
                         className: 'header-twitter-link',
                         'aria-label': 'Author on Twitter',
                     },
                     {
-                        href: `https://github.com/${username}/${repositoryName}`,
+                        href: `https://github.com/Ningensei848/${repositoryName}`,
                         position: 'right',
                         className: 'header-github-link',
                         'aria-label': 'GitHub repository',
@@ -333,12 +333,6 @@ const config = {
             ],
         }),
     plugins: [
-        // [
-        //   require.resolve('@cmfcmf/docusaurus-search-local'),
-        //   {
-        //     language: ['ja', 'en']
-        //   }
-        // ],
         [
             '@docusaurus/plugin-pwa',
             {
@@ -350,13 +344,12 @@ const config = {
                 ],
             },
         ],
-        [
-            '@docusaurus/plugin-google-tag-manager',
-            {
-                containerId: process.env.GOOGLE_TAG_MANAGER_ID || 'GTM-XXXXXX',
-            },
-        ],
-        // local plugins ------------------------------------------------------
+        // [
+        //   require.resolve('@cmfcmf/docusaurus-search-local'),
+        //   {
+        //     language: ['ja', 'en']
+        //   }
+        // ],
         [
             // load Adsense, Twitter widget
             `${__dirname}/src/plugins/injectHeadTag`,
@@ -367,6 +360,16 @@ const config = {
                     'googleXXXXXXXXXXXX',
             },
         ],
+        // Caution !! Google Tag Manager must always be loaded last -----------
+        // Otherwise, the `<script>` will NOT be loaded in the correct position
+        // and may NOT be recognized by search console, etc.
+        [
+            '@docusaurus/plugin-google-tag-manager',
+            {
+                containerId: process.env.GOOGLE_TAG_MANAGER_ID || 'GTM-XXXXXX',
+            },
+        ],
+        // Do NOT load plugins below ------------------------------------------
     ],
 }
 
