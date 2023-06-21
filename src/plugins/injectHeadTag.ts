@@ -61,9 +61,11 @@ const plugin = async (context: LoadContext, options: CustomOptions) => {
         },
         async postBuild({ outDir }) {
             // generate `ads.txt`
-            const pulisherId = options.AD_ID.replace('ca-', '')
-            const snipet = `google.com, ${pulisherId}, DIRECT, f08c47fec0942fa0\n`
-            await writeFile(`${outDir as string}/ads.txt`, snipet)
+            if (options.AD_ID) {
+                const pulisherId = options.AD_ID.replace('ca-', '')
+                const snipet = `google.com, ${pulisherId}, DIRECT, f08c47fec0942fa0\n`
+                await writeFile(`${outDir as string}/ads.txt`, snipet)
+            }
 
             if (options.SITE_VERIFY_ID) {
                 const htmlContent = `google-site-verification: ${options.SITE_VERIFY_ID}.html\n`
