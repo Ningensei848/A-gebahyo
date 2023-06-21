@@ -72,6 +72,13 @@
 
 ## Github Actions
 
+頻度について：
+
+-   当日の最終レースが NAR の最も遅いもので 20:30 発走とか
+-   なので、次の日のレースについてはそのくらいの時間には……と考えていたら、未だ内容が更新されないことがある
+-   時間を区切るか、複数回の更新が必要
+    -   21:30 には終わっとるやろ！ｗ　ということで、cron を UTC 12:34 に設定
+
 セキュリティのやつ：　https://engineering.mercari.com/blog/entry/20230609-github-actions-guideline/
 
 -   repoA: eta.js で MDX 生成 & index.mdx だけ main にプッシュ & `/docs/YYYY/*` を repoB に push
@@ -104,6 +111,14 @@ repoA は public にして、repoB は private にしておく
 -   ユーザ目線で考えていない
 -   マネタイズするならもっと工夫をこらす必要がある
 -   見るだけになってて良くない、もっとインタラクティブを
+
+## ロゴに関する覚書
+
+-   cf. https://www.designevo.com/apps/logo/?name=circle-abstract-seahorse
+-   font
+    -   title: audiowide
+    -   sub: play
+-   color ... #2e5e85, #a1c2df
 
 ## その他
 
