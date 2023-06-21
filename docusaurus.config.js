@@ -83,6 +83,8 @@ const remarkOembedderPlugin = [
     },
 ]
 
+// Favicon Generator for perfect icons on all browsers
+// cf. https://realfavicongenerator.net/
 const pwaHead = [
     {
         tagName: 'link',
@@ -111,7 +113,7 @@ const pwaHead = [
         tagName: 'link',
         rel: 'mask-icon',
         href: '/img/safari-pinned-tab.svg',
-        color: 'rgb(25, 150, 4)',
+        color: '#2e5e85',
     },
     {
         tagName: 'meta',
@@ -126,7 +128,7 @@ const pwaHead = [
     {
         tagName: 'meta',
         name: 'theme-color',
-        content: 'rgb(25, 150, 4)',
+        content: '#fefefe',
     },
     {
         tagName: 'meta',
@@ -141,7 +143,7 @@ const pwaHead = [
     {
         tagName: 'meta',
         name: 'msapplication-TileColor',
-        content: '#199604',
+        content: '#fefefe',
     },
 ]
 
@@ -244,7 +246,7 @@ const config = {
         /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
         ({
             // Replace with your project's social card
-            image: 'img/docusaurus-social-card.jpg',
+            image: 'img/social-card.jpg',
             docs: {
                 sidebar: {
                     hideable: true,
@@ -304,17 +306,19 @@ const config = {
                         process.env.SITE_TITLE ||
                         'My Site Logo',
                     src: (() =>
-                        `img/logo.${process.env.LOGO_EXTENSION || 'svg'}`)(), // IIFE
+                        `img/logo-with-title.${
+                            process.env.LOGO_EXTENSION || 'svg'
+                        }`)(), // IIFE
                     srcDark: (() =>
-                        `img/logo_dark.${
+                        `img/logo-with-title_dark.${
                             process.env.LOGO_EXTENSION || 'svg'
                         }`)(), // IIFE
                     // Logo URL is set to base URL of your site by default (siteConfig.baseUrl).
                     // Although you can specify your own URL for the logo,
                     // if it is an external link, it will open in a new tab.
                     // href: `${siteUrl}/${repositoryName}`,
-                    // width: 100,
-                    // height: 100
+                    width: 128,
+                    height: 128,
                 },
                 copyright:
                     process.env.FEED_COPYRIGHT ||
