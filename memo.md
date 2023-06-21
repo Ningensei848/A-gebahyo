@@ -1,37 +1,27 @@
--   config と metadata(by frontmatter) は異なることに留意
--   frontmatter を見て調整
-    https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
+## TODO:
 
-## 実際に出力してみる
-
--   race_id ごとのページ、およびそれらを一覧するページ（ポータル、というかインデックス）がほしい
-    -   `each_race`, `kaisai_index` でそれぞれ対応する
-    -   `each_race` では race のメタデータ情報が得られるので、それを元に `kaisai_index` を作る方が良さそう
-
-## リリース時に最低限必要な機能
-
--   [x] ページ共有機能 → docs 向けに Swizzling (cf. DocItem) する
--   [x] twitter 検索への導線をつくるとか → 　馬名のハッシュタグ化
--   [x] ReCharts での可視化
-    -   [x] Hello world
-    -   [x] 自動生成
-    -   [x] 複勝圏内をカスタムドット https://recharts.org/en-US/examples/CustomizedDotLineChart
-        -   https://iconmonstr.com/star-3-svg/
 -   [ ] `prism-react-renderer` のバージョンを上げるかどうか検証
--   [x] （最優先）JRA 出力されてない問題の解決
+-   [x] Google Tag Manager の準備
+-   [ ] Feed
+-   [x] search console
+-   [x] adsense
+    -   [x] サイト全体の見た目を整える
 
+## カイゼン
 
+-   強いビルド環境
+-   result_table の見た目を調整 by CSS
+-   タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent
+    -   `tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える
 
 ## あとまわし
 
-- [ ] 前夜から計画を立てるのだから、
 -   もし金曜だったら、土日のレースの記事を生成する機能
 -   `husky` `lint-staged` 等の開発時に便利な機能のカスタマイズ
 -   検索機能
 -   タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent
     -   `tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える
--   関数それ自体も props として与えれば、eta 側でも使えるんじゃね？　 → 　 getRecordsFromPreviousResult() を eta 側でやらせたほうが、より並列化されるため
--   result_table の見た目を調整 by CSS
+-   PoC: 関数それ自体も props として与えれば、eta 側でも使えるんじゃね？　 → 　 getRecordsFromPreviousResult() を eta 側でやらせたほうが、より並列化されるため
 
 -   静的サイトのホスティング先
     -   第一候補は Cloudflare Pages https://www.cloudflare.com/ja-jp/plans/developer-platform/
@@ -105,28 +95,31 @@ repoA は public にして、repoB は private にしておく
     -   Cloud Build ? Cloud Deploy ?
     -   GitHub x GCP は OIDC 連携するとセキュリティ的に安心
 
-### repo A (A-gebahyo)
-
--   `.gitignore` で `content/docs/202*` を除く
--   GitHub Actions は未定
--   GitHub Pages は無し
-
-### repo B (Content Repository)
-
--   `content/docs/202*` のみを置く
--   GitHub Actions を毎日実行
-    -   checkout 後に repo A を clone する & `content/docs/` 以下に移動させてビルド
-    -   ビルド（記事生成＋ブログ出力）
--   GitHub Pages を Private の上で設定
-
 ## ぶつかった壁
 
 -   [ ] ばんえい競馬を排除するロジックの構築
+
+## フィードバックのメモ
+
+-   ユーザ目線で考えていない
+-   マネタイズするならもっと工夫をこらす必要がある
+-   見るだけになってて良くない、もっとインタラクティブを
 
 ## その他
 
 <details>
 <summary>完了済みタスクとか諸々</summary>
+
+-   config と metadata(by frontmatter) は異なることに留意
+-   frontmatter を見て調整
+    https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
+
+## 実際に出力してみる
+
+-   race_id ごとのページ、およびそれらを一覧するページ（ポータル、というかインデックス）がほしい
+
+    -   `each_race`, `kaisai_index` でそれぞれ対応する
+    -   `each_race` では race のメタデータ情報が得られるので、それを元に `kaisai_index` を作る方が良さそう
 
 -   [x] 実装完了 cf. `/getHorseResult`
 -   [x] ~~各馬ごとの過去成績を参照する際に、 `entries` のデータだけを引っこ抜くと `metadata` に紐づく情報が一発で得られない…~~
@@ -138,5 +131,33 @@ repoA は public にして、repoB は private にしておく
 -   [x] ~~Saturday なのに JRA が表示されていない！~~
     -   ~~horse_id が振られていないばんえい競馬を除去するために `entries`　を弄ったからか？？？~~
     -   修正時に raceDomain を org そのまま渡していただけだった( JRA のときは `race`)
+-   ~~[x] 前夜から計画を立てるのだから、生成するのは明日のレースに対する記事~~
+
+## リリース時に最低限必要な機能
+
+-   [x] ページ共有機能 → docs 向けに Swizzling (cf. DocItem) する
+-   [x] twitter 検索への導線をつくるとか → 　馬名のハッシュタグ化
+-   ~~[x] ReCharts での可視化~~
+    -   ~~[x] Hello world~~
+    -   ~~[x] 自動生成~~
+    -   ~~[x] 複勝圏内をカスタムドット https://recharts.org/en-US/examples/CustomizedDotLineChart~~
+        -   https://iconmonstr.com/star-3-svg/
+-   ~~[x] （最優先）JRA 出力されてない問題の解決~~
+
+## Github Actions
+
+### repo A (A-gebahyo)
+
+-   [x] `.gitignore` で `content/docs/202*` を除く
+-   [x] GitHub Actions は未定
+-   [x] GitHub Pages は無し
+
+### repo B (Content Repository)
+
+-   [x] `content/docs/202*` のみを置く
+-   [x] GitHub Actions を毎日実行
+    -   [x] checkout 後に repo A を clone する & `content/docs/` 以下に移動させてビルド
+    -   [x] ビルド（記事生成＋ブログ出力）
+-   ~~[x] GitHub Pages を Private の上で設定~~
 
 </details>
