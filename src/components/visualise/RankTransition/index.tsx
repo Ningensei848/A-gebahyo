@@ -36,8 +36,8 @@ const RankTransition: React.FC<RankTransitionProps> = (props) => {
                 data={values}
                 margin={{
                     top: 5,
-                    right: 9, // 30,
-                    left: 6, // 20,
+                    right: 10, // 30,
+                    left: -20, // 20,
                     bottom: 5,
                 }}
             >

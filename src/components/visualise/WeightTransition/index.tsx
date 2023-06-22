@@ -86,8 +86,8 @@ const WeightTransition: React.FC<WeightTransitionProps> = (props) => {
                 data={data}
                 margin={{
                     top: 5,
-                    right: 9, // 30,
-                    left: 6, // 20,
+                    right: 0, // 30,
+                    left: -20, // 20,
                     bottom: 5,
                 }}
             >
