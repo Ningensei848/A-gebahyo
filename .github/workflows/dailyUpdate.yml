@@ -77,7 +77,6 @@ jobs:
                   git sparse-checkout disable
                   git config --local user.name ${{ env.BOT_USERNAME }}
                   git config --local user.email ${{ env.BOT_EMAIL }}
-                  git config --list
                   git status
                   git add .
                   git commit -m "[GitHub Actions BOT] Articles updated || $(date)"

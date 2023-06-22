@@ -102,8 +102,12 @@ const isHorseRecord = (arg: any): arg is HorseRecord => {
 const main = async (dt?: string) => {
     // jra, nar をキーとした辞書になっている
     const yyyymmdd = dt || getTargetDate()
-    console.log(`[main] target date is ${yyyymmdd}`)
+    console.log(`[main] target date is ${yyyymmdd}\n`)
+
     const kaisai = await getKaisaiList(yyyymmdd)
+    console.log('[main] Kaisai list is below:\n')
+    console.log(JSON.stringify(kaisai, null, '\t'))
+
     const races_jra = await parallelizedProcess(kaisai, 'jra')
     const races_nar = await parallelizedProcess(kaisai, 'nar')
 
@@ -178,9 +182,16 @@ const parallelizedProcess = async (
     )
 
     return results
-        .map((res: PromiseSettledResult<RaceDetail>) =>
-            res.status === 'fulfilled' ? res.value : false,
-        )
+        .map((res: PromiseSettledResult<RaceDetail>) => {
+            res.status === 'fulfilled' ? res.value : false
+            if (res.status === 'fulfilled') {
+                return res.value
+            } else {
+                /* res.status === 'rejected' */
+                console.error(res.reason)
+                return false
+            }
+        })
         .filter(isRaceDetail)
 }
 
