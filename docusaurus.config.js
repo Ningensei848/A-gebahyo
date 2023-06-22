@@ -191,7 +191,7 @@ const config = {
                     sidebarPath: require.resolve('./sidebars.js'),
                     remarkPlugins: [],
                     rehypePlugins: [],
-                    beforeDefaultRemarkPlugins: [remarkOembedderPlugin],
+                    // beforeDefaultRemarkPlugins: [remarkOembedderPlugin],
                     // beforeDefaultRehypePlugins: [],
                     // showLastUpdateAuthor: false,
                     showLastUpdateTime: true,
