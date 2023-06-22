@@ -323,28 +323,29 @@ const getRecordsFromPreviousResult = async (
         key: process.env.API_KEY,
     })
     const response = await fetch(`${url}?${query}`)
-    const { data } = await response.json()
 
-    if (!Array.isArray(data)) {
-        console.error(
-            `[getRecordsFromPreviousResult] Invalid value is returned from server.`,
-            `horse_id is ${horse_id}`
-        )
-        throw new Error(
-            '[getRecordsFromPreviousResult] Invalid value is returned from server.' +
-                'Check that the vars `url` and `query` are set to the correct values.',
-        )
-    } else {
-        const results = data.filter(isResultData)
+    try {
+        const { data } = await response.json()
+        if (!Array.isArray(data)) {
+            throw new Error(
+                '[getRecordsFromPreviousResult] Invalid value is returned from server.' +
+                    'Check that the vars `url` and `query` are set to the correct values.' +
+                    `horse_id is ${horse_id}`,
+            )
+        } else {
+            const results = data.filter(isResultData)
 
-        results.sort(
-            (a, b) =>
-                // order by desc
-                new Date(b.timestamp).getTime() -
-                new Date(a.timestamp).getTime(),
-        )
+            results.sort(
+                (a, b) =>
+                    // order by desc
+                    new Date(b.timestamp).getTime() -
+                    new Date(a.timestamp).getTime(),
+            )
 
-        return { horse_id, results }
+            return { horse_id, results }
+        }
+    } catch (err) {
+        throw err
     }
 }
 

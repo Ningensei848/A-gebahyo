@@ -61,7 +61,8 @@ export const data_<%= entry.horse_id %> = <%= data %><%= br %>
 <%= nl %>
 <%  } %><% /* End if (entry.horse_id.match(/\w{10}/i)) ------------------ */ %>
 
-<%   const { results } = it.records.find(({ horse_id }) => horse_id === entry.horse_id) %>
+<%   const record = it.records.find(({ horse_id }) => horse_id === entry.horse_id) %>
+<%   const results = 'results' in record ? record.results : [] %>
 <%   if (results.length > 0){ %>
 <%~    include('./result_table',  { results }) %>
 <%=  nl %>
