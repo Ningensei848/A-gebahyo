@@ -92,7 +92,7 @@ const isResultData = (arg: any): arg is ResultData => {
 }
 
 const isHorseRecord = (arg: any): arg is HorseRecord => {
-    if ('horse_id' in arg && 'results' in arg) {
+    if (isObject(arg) && 'horse_id' in arg && 'results' in arg) {
         // TODO: もうちょいちゃんとやる
         return true
     }
@@ -255,7 +255,15 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
     )
 
     const records = promised_records
-        .map((res) => (res.status === 'fulfilled' ? res.value : false))
+        .map((res) => {
+            if (res.status === 'fulfilled') {
+                return res.value
+            } else {
+                /* res.status === 'rejected' */
+                console.error(res.reason)
+                return false
+            }
+        })
         .filter(isHorseRecord)
 
     const props = {
@@ -318,6 +326,10 @@ const getRecordsFromPreviousResult = async (
     const { data } = await response.json()
 
     if (!Array.isArray(data)) {
+        console.error(
+            `[getRecordsFromPreviousResult] Invalid value is returned from server.`,
+            `horse_id is ${horse_id}`
+        )
         throw new Error(
             '[getRecordsFromPreviousResult] Invalid value is returned from server.' +
                 'Check that the vars `url` and `query` are set to the correct values.',
