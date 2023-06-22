@@ -165,7 +165,7 @@ const config = {
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
-    organizationName: username, // Usually your GitHub org/user name.
+    organizationName: 'Ningensei848', // Usually your GitHub org/user name.
     projectName: repositoryName, // Usually your repo name.
 
     onBrokenLinks: 'throw',
@@ -187,13 +187,15 @@ const config = {
             ({
                 docs: {
                     path: 'content/docs',
-                    breadcrumbs: true,
                     routeBasePath: '/',
                     sidebarPath: require.resolve('./sidebars.js'),
                     remarkPlugins: [],
                     rehypePlugins: [],
-                    // showLastUpdateAuthor: true,
+                    beforeDefaultRemarkPlugins: [remarkOembedderPlugin],
+                    // beforeDefaultRehypePlugins: [],
+                    // showLastUpdateAuthor: false,
                     showLastUpdateTime: true,
+                    breadcrumbs: true,
                     // document versioning
                     // https://docusaurus.io/docs/next/versioning#configuring-versioning-behavior
                     // cf. https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-content-docs
@@ -210,11 +212,11 @@ const config = {
                 //     path: 'content/blogs', // Path to the blog content directory on the filesystem, relative to site dir.
                 //     routeBasePath: '/blog',
                 //     // Please change this to your repo.
-                //     editUrl: `https://github.com/${username}/${repositoryName}/edit/main/`,
+                //     editUrl: `https://github.com/Ningensei848/${repositoryName}/edit/main/`,
                 //     showReadingTime: false,
                 //     blogTitle: process.env.BLOG_TITLE || 'Blog',
                 //     blogDescription:
-                //         process.env.BLOG_DESCRIPTION || `${username}'s Blog`,
+                //         process.env.BLOG_DESCRIPTION || `Ningensei848's Blog`,
                 //     blogSidebarCount: process.env.SIDEBAR_COUNT || 'ALL',
                 //     blogSidebarTitle:
                 //         process.env.SIDEBAR_TITLE || 'All our posts',
@@ -228,7 +230,7 @@ const config = {
                 //         description:
                 //             process.env.FEED_DESCRIPTION ||
                 //             process.env.BLOG_DESCRIPTION ||
-                //             `${username}'s Blog`,
+                //             `Ningensei848's Blog`,
                 //         copyright:
                 //             process.env.FEED_COPYRIGHT ||
                 //             `Copyright © ${username}, ${new Date().getFullYear()}`,
@@ -278,12 +280,6 @@ const config = {
                     //   label: 'Tutorial',
                     // },
                     { to: '/about', label: 'about', position: 'left' },
-                    {
-                        href: 'https://zenn.dev/ningensei848',
-                        position: 'right',
-                        className: 'header-zenn-link',
-                        'aria-label': 'Zenn.dev Articles',
-                    },
                     {
                         href: 'https://twitter.com/A_gebahyo',
                         position: 'right',
