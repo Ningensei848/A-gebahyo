@@ -131,6 +131,10 @@ const getTargetDate = (): string => {
         dt.setDate(dt.getDate() + 1)
     }
 
+    return getFormattedDateString(dt)
+}
+
+const getFormattedDateString = (dt: Date) => {
     // 年、月、日を取得
     const year = dt.getFullYear()
     const month = String(dt.getMonth() + 1).padStart(2, '0')
@@ -389,8 +393,43 @@ const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
 }
 
 // finally ...
-const { yyyymmdd } = parsed.values
-const promise = typeof yyyymmdd === 'undefined' ? main() : main(yyyymmdd)
+const getMainPromise = async () => {
+    const { yyyymmdd } = parsed.values
+    if (typeof yyyymmdd !== 'undefined') {
+        await main(yyyymmdd)
+        return
+    }
+    // `--date` が無いとき（つまり自動実行のとき）、金曜日であれば週末の分も取得する
+    const today = new Date()
+    if (today.getDay() === 5) {
+        // today is Friday
+        const saturday = new Date(new Date().setDate(today.getDate() + 1))
+        const sunday = new Date(new Date().setDate(today.getDate() + 2))
+
+        await main(getFormattedDateString(today))
+        await main(getFormattedDateString(saturday))
+        await main(getFormattedDateString(sunday))
+    } else if (today.getDay() === 6) {
+        // today is Saturday
+        const sunday = new Date(new Date().setDate(today.getDate() + 1))
+
+        await main(getFormattedDateString(today))
+        await main(getFormattedDateString(sunday))
+    } else if (today.getDay() === 0) {
+        // today is Sunday
+        if (today.getHours() < 16) {
+            await main(getFormattedDateString(today))
+        } else {
+            // 16 時以降の場合は、月曜のレース情報を取得する
+            await main()
+        }
+    } else {
+        await main()
+    }
+
+    return
+}
+const promise = getMainPromise()
 
 // Run a `promise`ed processes !
 promise
