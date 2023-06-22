@@ -101,8 +101,8 @@ const isHorseRecord = (arg: any): arg is HorseRecord => {
 
 const main = async (dt?: string) => {
     // jra, nar をキーとした辞書になっている
-    const yyyymmdd = dt || getTomorrowDate()
-    console.log(`[main] target date is ${dt}`)
+    const yyyymmdd = dt || getTargetDate()
+    console.log(`[main] target date is ${yyyymmdd}`)
     const kaisai = await getKaisaiList(yyyymmdd)
     const races_jra = await parallelizedProcess(kaisai, 'jra')
     const races_nar = await parallelizedProcess(kaisai, 'nar')
@@ -114,13 +114,18 @@ const main = async (dt?: string) => {
     return
 }
 
-const getTomorrowDate = (): string => {
-    // タイムゾーンを 'Asia/Tokyo' に設定
-    process.env.TZ = 'Asia/Tokyo'
-
+const getTargetDate = (): string => {
     // 現在の日付を取得し、次の日へ変換
+    // 本来は UTC だけど、js 実行までに env.TZ を指定すれば変更できる
     const dt = new Date()
-    dt.setDate(dt.getDate() + 1)
+    if (dt.getHours() < 12) {
+        /* AM */
+        // dt is Today
+    } else {
+        /* PM */
+        // dt is Tommorow
+        dt.setDate(dt.getDate() + 1)
+    }
 
     // 年、月、日を取得
     const year = dt.getFullYear()

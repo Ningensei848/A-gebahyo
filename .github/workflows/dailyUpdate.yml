@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
     schedule:
         # * is a special character in YAML so you have to quote this string
-        - cron: '34 12 * * *'
+        - cron: '31 11,23 * * *'
     push:
         branches:
             - main
@@ -17,6 +17,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 10
         env:
+            TZ: 'Asia/Tokyo'
             # secrets context
             # cf. https://docs.github.com/ja/actions/learn-github-actions/contexts#secrets-context
             ENDPOINT: ${{ secrets.ENDPOINT }}
@@ -72,6 +73,7 @@ jobs:
             - name: Push to Another Repo
               working-directory: ./content/docs # prefix `./` is essential
               run: |
+                  ls -lR
                   git sparse-checkout disable
                   git config --local user.name ${{ env.BOT_USERNAME }}
                   git config --local user.email ${{ env.BOT_EMAIL }}
