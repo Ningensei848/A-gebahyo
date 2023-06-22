@@ -1,41 +1,13 @@
-# Website
+![[A-gebahyo](https://a-gebahyo.pages.dev)](static/img/logo-with-title.svg)
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+# A-gebahyo: the rest nowhere
 
-### Installation
+https://a-gebahyo.pages.dev
 
-```
-$ yarn
-```
+## Features
 
-### Local Development
-
-```
-$ yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
-
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+-   人気やオッズ、その他**第三者視点での評価を徹底的に排したデータ至上主義のサービス**を提供
+-   中央・地方を問わず、毎日最新のデータを更新
+-   みやすいデータ可視化（とインタラクティブな GUI（実装中））
+-   改善点を広く募集中 🔥
+    -   [開発メモ](memo.md)は逐次更新中 → cf. [memo.md](memo.md)
