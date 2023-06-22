@@ -1,0 +1,29 @@
+<% const br = "\n" %>
+<% const entry = it.entry %>
+<% const data = JSON.stringify(it.data, null, "\t") %>
+<% if (/\w{10}/i.test(entry.horse_id)){ %><% /* ---------------------- */ %>
+export const data_<%= entry.horse_id %> = <%= data %><%= br %>
+
+#### 馬体重<%= br %>
+
+<WeightTransition
+    id='weight-transition-<%= entry.horse_id %>'
+    width='100%'
+    height='100%'
+    minHeight={250}
+    chartKeywords={['weight', 'impost_ratio']}
+    data={data_<%= entry.horse_id %>}
+/>
+<%= br %>
+
+#### コーナー順位<%= br %>
+
+<RankTransition
+    id='rank-transition-<%= entry.horse_id %>'
+    width='100%'
+    height='100%'
+    minHeight={500}
+    data={data_<%= entry.horse_id %>}
+/>
+<%= br %>
+<%  } %><% /* End if (entry.horse_id.match(/\w{10}/i)) ------------------ */ %>

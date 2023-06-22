@@ -29,44 +29,18 @@ import RankTransition from '@site/src/components/visualise/RankTransition'
 <%= nl %>
 （騎手: [<%= entry.jockey_name %>](https://db.netkeiba.com/jockey/<%= entry.jockey_id %>)
  / 調教師: [<%= entry.trainer_name %>](https://db.netkeiba.com/trainer/<%= entry.trainer_id %>)）
-<%= nl %>
 
-<%   const data = JSON.stringify(it.data[entry.horse_id], null, "\t") %>
-<%   if (entry.horse_id.match(/\w{10}/i)){ %><% /* ---------------------- */ %>
-export const data_<%= entry.horse_id %> = <%= data %><%= br %>
-
-#### 馬体重
-<%= nl %>
-
-<WeightTransition
-    id='weight-transition-<%= entry.horse_id %>'
-    width='100%'
-    height='100%'
-    minHeight={250}
-    chartKeywords={['weight', 'impost_ratio']}
-    data={data_<%= entry.horse_id %>}
-/>
-<%= nl %>
-
-#### コーナー順位
-<%= nl %>
-
-<RankTransition
-    id='rank-transition-<%= entry.horse_id %>'
-    width='100%'
-    height='100%'
-    minHeight={500}
-    data={data_<%= entry.horse_id %>}
-/>
-<%= nl %>
-<%  } %><% /* End if (entry.horse_id.match(/\w{10}/i)) ------------------ */ %>
+<%   const horse_data = it.data[entry.horse_id] %>
+<%   if (horse_data.length > 0){ %><% /* ----------------------------- */ %>
+<%~    include('./result_graph',  { data: horse_data, entry }) %>
+<%   } %><% /* End f (horse_data.length > 0) ------------------------- */ %>
 
 <%   const record = it.records.find(({ horse_id }) => horse_id === entry.horse_id) %>
 <%   const results = 'results' in record ? record.results : [] %>
-<%   if (results.length > 0){ %>
+<%   if (results.length > 0){ %><% /* ----- */ %>
 <%~    include('./result_table',  { results }) %>
 <%=  nl %>
-<%   } %>
+<%   } %><% /* End if (results.length > 0)  */ %>
 
 <% /* TODO: rechart.js で色々描画 */ %>
 <% /* weight, gain → 過去データがほしい */ %>
@@ -77,8 +51,10 @@ export const data_<%= entry.horse_id %> = <%= data %><%= br %>
 <%= nl %>
 <% }) %><% /* End it.entries.forEach -------------------------------------*/ %>
 <% /* レースの統計分析 ----------------------------------------------------- */ %>
+<% /* Under construction */ %>
 <% /* まとめと予想 -------------------------------------------------------- */ %>
-## 総括
+<% /* Under construction */ %>
+## 出典
 <%= nl %>
 <% const sub_domain = it.org == 'jra' ? 'race' : 'nar' %>
 <% const source_url = `https://${sub_domain}.netkeiba.com/race/shutuba.html?race_id=${it.race_id}` %>
