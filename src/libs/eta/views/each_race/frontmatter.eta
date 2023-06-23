@@ -19,7 +19,9 @@ slug: "<%= it.slug %>"
 <% if(Array.isArray(it.tags) && it.tags.length !== 0) { %>
 tags:
 <% it.tags.forEach(function(tag){ %>
-  - "<%= tag %>"
+<%   if (typeof tag === 'string' && tag.length > 0){ %>
+- "<%= tag %>"
+<%   } %>
 <% }) %>
 <% } %>
 <% /* draft: true */ %>
