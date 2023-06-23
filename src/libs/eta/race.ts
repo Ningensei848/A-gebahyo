@@ -277,7 +277,7 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
         data: getChartData(records), // horse_id をキーとするオブジェクトを返す
         distance,
         description:
-            regulation.length !== 0
+            typeof regulation === 'string' && regulation.length !== 0
                 ? `${description} 〈${regulation}〉`
                 : description,
         frontmatter: {
