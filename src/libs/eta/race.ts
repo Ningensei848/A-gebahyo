@@ -288,13 +288,14 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
             date: timestamp.split(/\s+/).shift(),
             keywords: [`${place}競馬`, 'データ分析'],
             description: `【R${R_i}】 ${description} 【${place}】`,
-            thumbnail: 'https://example.com/image.png',
+            thumbnail:
+                'https://raw.githubusercontent.com/Ningensei848/A-gebahyo/main/static/social-card.png',
             slug: R_i,
             tags: [
                 place,
                 `R${R_i}`,
                 `${track}${direction}${distance}m`,
-                regulation,
+                regulation || '',
             ],
         },
         entries,

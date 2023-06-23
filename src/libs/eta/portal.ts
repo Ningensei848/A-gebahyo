@@ -34,7 +34,7 @@ const main = async (yyyymmdd: string, data: Array<RaceDetail>) => {
             sidebar_label: dd,
             date: dt,
             keywords: ['開催場所の一覧', '競馬'],
-            thumbnail: 'https://example.com/image.png',
+            thumbnail: 'https://raw.githubusercontent.com/Ningensei848/A-gebahyo/main/static/social-card.png',
         },
     }
 
@@ -101,7 +101,7 @@ const renderPortalForeach = async (
             date: dt,
             sidebar_label: place, // additional
             keywords: ['レース一覧', place, '競馬'],
-            thumbnail: 'https://example.com/image.png',
+            thumbnail: 'https://raw.githubusercontent.com/Ningensei848/A-gebahyo/main/static/social-card.png',
         },
     }
 
