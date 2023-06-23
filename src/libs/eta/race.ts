@@ -395,12 +395,14 @@ const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
 // finally ...
 const getMainPromise = async () => {
     const { yyyymmdd } = parsed.values
-    if (typeof yyyymmdd !== 'undefined') {
+    // `--date` が与えられている時、その引数だけで実行
+    if (!yyyymmdd) {
         await main(yyyymmdd)
         return
     }
     // `--date` が無いとき（つまり自動実行のとき）、金曜日であれば週末の分も取得する
     const today = new Date()
+    console.log(`Day number is ${today.getDay()}`)
     if (today.getDay() === 5) {
         // today is Friday
         const saturday = new Date(new Date().setDate(today.getDate() + 1))
