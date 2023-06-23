@@ -396,3 +396,4 @@ content/docs/202*/
 content/docs/.gitignore
 content/docs/package*.json
 content/docs/README.md
+content/docs/src

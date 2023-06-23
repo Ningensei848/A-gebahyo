@@ -1,5 +1,6 @@
 ## TODO:
 
+- [ ] docusaurus 側に MDX が多すぎて詰んだおという報告を出す
 - [ ] Contribute 環境の整備
     - [ ] サンプル MDX の準備
     - [ ] Contribute.md を書く
