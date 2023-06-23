@@ -396,7 +396,7 @@ const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
 const getMainPromise = async () => {
     const { yyyymmdd } = parsed.values
     // `--date` が与えられている時、その引数だけで実行
-    if (!yyyymmdd) {
+    if (typeof yyyymmdd === 'string' && yyyymmdd.length !== 0) {
         await main(yyyymmdd)
         return
     }

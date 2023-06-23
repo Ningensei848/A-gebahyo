@@ -30,12 +30,12 @@ import RankTransition from '@site/src/components/visualise/RankTransition'
 （騎手: [<%= entry.jockey_name %>](https://db.netkeiba.com/jockey/<%= entry.jockey_id %>)
  / 調教師: [<%= entry.trainer_name %>](https://db.netkeiba.com/trainer/<%= entry.trainer_id %>)）
 
-<%   const horse_data = it.data[entry.horse_id] %>
+<%   const horse_data = it.data[entry.horse_id] || [] %>
 <%   if (horse_data.length > 0){ %><% /* ----------------------------- */ %>
 <%~    include('./result_graph',  { data: horse_data, entry }) %>
 <%   } %><% /* End f (horse_data.length > 0) ------------------------- */ %>
 
-<%   const record = it.records.find(({ horse_id }) => horse_id === entry.horse_id) %>
+<%   const record = it.records.find(({ horse_id }) => horse_id === entry.horse_id) || [] %>
 <%   const results = 'results' in record ? record.results : [] %>
 <%   if (results.length > 0){ %><% /* ----- */ %>
 <%~    include('./result_table',  { results }) %>
