@@ -147,8 +147,8 @@ const NextShareButtons = ({
 
     return (
         <MemoizedSocialButtons
-            href={url}
-            title={subject}
+            href={`${url}\n`}
+            title={`${subject}\n`}
             onHover={handleEvent}
         />
     )
