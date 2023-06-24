@@ -1,0 +1,104 @@
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy GitHub Pages
+
+on:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+    schedule:
+        # * is a special character in YAML so you have to quote this string
+        - cron: '41 11,23 * * 5,6'
+        # Review gh actions docs if you want to further define triggers, paths, etc
+        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+    group: 'pages'
+    cancel-in-progress: false
+
+jobs:
+    # Build job
+    build:
+        name: Deploy GitHub Pages
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        env:
+            TZ: 'Asia/Tokyo'
+            USERNAME: 'Ningensei848'
+            SITE_TITLE: '上馬評(η)'
+            DOMAIN_NAME: 'ningensei848.github.io'
+            BASEPATH_NAME: 'A-gebahyo'
+            REPOSITORY_NAME: 'A-gebahyo'
+            NODE_ENV: 'production'
+
+            # secrets context:
+            # cf. https://docs.github.com/ja/actions/learn-github-actions/contexts#secrets-context
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Generate Token from My GitHub Apps
+              # cf. https://github.com/marketplace/actions/action-github-app-token
+              id: generate_token
+              uses: getsentry/action-github-app-token@v2
+              with:
+                  app_id: ${{ secrets.APP_ID }}
+                  private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+            - name: Checkout Another Repo
+              uses: actions/checkout@v3
+              with:
+                  repository: ${{ secrets.ANOTHER_REPO }}
+                  # `GH_PAT` is a secret that contains your PAT
+                  # cf. https://github.com/actions/checkout#Checkout-multiple-repos-private
+                  token: ${{ steps.generate_token.outputs.token }}
+                  # sparse-checkout: .gitignore
+                  # sparse-checkout-cone-mode: false
+                  path: content/docs
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+                  cache: npm
+
+            - name: Install Dependencies from Lockfile
+              run: npm ci
+
+            - name: Remove extra contents
+              working-directory: ./content/docs
+              run: npm run rm
+              env:
+                  ORG_NAME: 'jra'
+
+            - name: Build website
+              working-directory: ${{ github.workspace }}
+              run: |
+                  git fetch
+                  git checkout -m origin/main content/docs/index.mdx content/docs/about.mdx
+                  npm run build
+              env:
+                  GOOGLE_ADSENSE_ID: ${{ secrets.GOOGLE_ADSENSE_ID }}
+                  GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v1
+              with:
+                  path: build
+
+    # Deployment job
+    deploy:
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v2
