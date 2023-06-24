@@ -37,7 +37,7 @@ interface SocialButtonsProps extends NextShareButtonProps {
     onHover: () => void
 }
 
-const HashTag = 'Kiai_De_Nantoka'
+const HashTag = '上馬評'
 
 const IconProps = {
     size: 32,
@@ -54,7 +54,7 @@ const Twitter = (props: CommonProps): JSX.Element => (
     <TwitterShareButton
         {...props}
         hashtags={[HashTag]}
-        related={['elonmusk', 'TOYOTA_PR']}
+        related={['A_gebahyo', 'netkeiba']}
     >
         <TwitterIcon {...IconProps} />
     </TwitterShareButton>
