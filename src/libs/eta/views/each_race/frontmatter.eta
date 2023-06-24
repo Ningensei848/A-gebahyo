@@ -1,28 +1,22 @@
 ---
 id: "<%= it.page_id %>"
 title: "<%= it.page_title %>"
-<% if ('pagination_label' in it) {%>
+<% if ('pagination_label' in it) {%><% /* -- */ %>
 pagination_label: "<%= it.pagination_label %>"
-<% } %>
-<% if ('sidebar_label' in it) {%>
+<% } %><% /* ------------------------------- */ %>
+<% if ('sidebar_label' in it) {%><% /* ----- */ %>
 sidebar_label: "<%= it.sidebar_label %>"
-<% } %>
+<% } %><% /* ------------------------------- */ %>
 description: "<%= it.description %>"
 keywords:
-<% it.keywords.forEach(function(keyword){ %>
+<% it.keywords.forEach(function(keyword){ %><% /* ----------------------- */ %>
+<%   if (typeof keyword === 'string' && keyword.length > 0){ %>
   - "<%= keyword %>"
-<% }) %>
+<%   } %>
+<% }) %><% /* ----------------------------------------------------------- */ %>
 image: "<%= it.thumbnail %>"
 <% if ('slug' in it) {%>
 slug: "<%= it.slug %>"
-<% } %>
-<% if(Array.isArray(it.tags) && it.tags.length !== 0) { %>
-tags:
-<% it.tags.forEach(function(tag){ %>
-<%   if (typeof tag === 'string' && tag.length > 0){ %>
-- "<%= tag %>"
-<%   } %>
-<% }) %>
 <% } %>
 <% /* draft: true */ %>
 ---
