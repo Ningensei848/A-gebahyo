@@ -37,7 +37,7 @@ interface SocialButtonsProps extends NextShareButtonProps {
     onHover: () => void
 }
 
-const HashTag = '上馬評'
+const HashTag = '上馬評で下す'
 
 const IconProps = {
     size: 32,
