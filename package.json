@@ -19,7 +19,7 @@
         "postinstall": "node --eval 'process.exit(process.env.NODE_ENV === `production` ? 0 : 1)' || husky install",
         "lint": "eslint \"{src,tests}/**/*.{ts,tsx}\"",
         "lint-staged": "lint-staged",
-        "format": "prettier --ignore-path .gitignore --write './**/*.{js,jsx,ts,tsx,json,css,md,mdx}'",
+        "format": "prettier --ignore-path .gitignore --write './**/*.{js,jsx,ts,tsx,json,css,md,mdx}' --ignore-unknown",
         "eta:dev": "npm run compile --dir='libs/eta' && node src/libs/eta/race.js --yyyymmdd=${npm_config_date}",
         "eta:prod": "NODE_ENV=\"production\" npm run eta:dev"
     },
@@ -68,16 +68,16 @@
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged",
-            "pre-push": "yarn lint"
+            "pre-push": "npm run lint"
         }
     },
     "lint-staged": {
         "*.@(ts|tsx)": [
-            "yarn lint",
-            "yarn format --ignore-unknown"
+            "npm run lint",
+            "npm run format --ignore-unknown"
         ],
         "**/*": [
-            "yarn format --ignore-unknown"
+            "npm run format --ignore-unknown"
         ]
     },
     "browserslist": {
