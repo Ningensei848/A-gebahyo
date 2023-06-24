@@ -5,5 +5,6 @@
         "baseUrl": ".",
         // additonal
         "allowJs": true
-    }
+    },
+    "exclude": ["**/node_modules/*", "**/build/*"]
 }

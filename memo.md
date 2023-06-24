@@ -1,9 +1,9 @@
 ## TODO:
 
-- [ ] docusaurus 側に MDX が多すぎて詰んだおという報告を出す
-- [ ] Contribute 環境の整備
-    - [ ] サンプル MDX の準備
-    - [ ] Contribute.md を書く
+-   [ ] docusaurus 側に MDX が多すぎて詰んだおという報告を出す
+-   [ ] Contribute 環境の整備
+    -   [ ] サンプル MDX の準備
+    -   [ ] Contribute.md を書く
 -   [ ] Top ページ(Home) の自動生成
 -   [ ] PieChart の充実
 -   [ ] 自動ツイート
@@ -27,6 +27,11 @@
 ## カイゼン
 
 -   強いビルド環境
+
+cloudflare pages で client/server buiild は complete したのにデプロイがコケた
+
+仕方がないので、`pages.dev` では nar を、`github.io/A-gebahyo` では JRA をやろう
+
 -   result_table の見た目を調整 by CSS
 -   タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent
     -   `tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える
@@ -122,7 +127,7 @@ repoA は public にして、repoB は private にしておく
 
 ## ぶつかった壁
 
--   [ ] ばんえい競馬を排除するロジックの構築
+-   [x] ばんえい競馬を排除するロジックの構築
 
 ## フィードバックのメモ
 

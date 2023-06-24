@@ -16,13 +16,13 @@ import {
 type CustomizedDotProps = {
     key?: string
     r?: number
-    value?: any
+    value?: unknown
     dataKey?: string | number
     cx?: number
     cy?: number
     index?: number
     // data で与えた要素の一つ一つが含まれている
-    payload?: { [key: string]: any }
+    payload?: { [key: string]: unknown }
 }
 
 interface WeightTransitionProps {

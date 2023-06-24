@@ -1,12 +1,10 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import {
     LineChart,
     Line,
     XAxis,
     YAxis,
     CartesianGrid,
-    Tooltip,
-    Legend,
     ResponsiveContainer,
 } from 'recharts'
 
@@ -55,6 +53,7 @@ const RankTransition: React.FC<RankTransitionProps> = (props) => {
                 {/* <Legend /> */}
                 {race_id_list.map((race_id) => (
                     <Line
+                        key={race_id}
                         type='monotone'
                         dataKey={race_id}
                         stroke={stroke_color[race_id]}
@@ -98,6 +97,7 @@ const getValues = (
 
         if (size < 5) {
             // corner_rank_list の先頭に不足分を null で埋める
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             corner_rank_list.unshift(...Array(5 - size).fill(null))
         }
 
@@ -106,7 +106,7 @@ const getValues = (
         })
     })
 
-    // stroke_color ... カラーコードの dict を作る　race_id をキーとして waku を値に
+    // stroke_color ... カラーコードの dict を作る race_id をキーとして waku を値に
 
     /*
     const values = [
@@ -139,6 +139,7 @@ const color_code_of_waku = {
 }
 
 const getWakuColor = (waku: string): string =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     color_code_of_waku[parseInt(waku, 10)]
 
 export default RankTransition

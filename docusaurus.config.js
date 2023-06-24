@@ -160,7 +160,7 @@ const config = {
         : '/',
     // -------------------------------------------------------------------------
 
-    tagline: process.env.TAGLINE || 'Dinosaurs are cool',
+    tagline: process.env.TAGLINE || 'A-gebahyo: the rest nowhere.',
     favicon: 'img/favicon.ico',
 
     // GitHub pages deployment config.

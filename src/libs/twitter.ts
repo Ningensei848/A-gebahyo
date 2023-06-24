@@ -9,8 +9,9 @@ declare global {
     }
 }
 
-const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfilledResult<T> =>
-    input.status === 'fulfilled'
+const isFulfilled = <T>(
+    input: PromiseSettledResult<T>,
+): input is PromiseFulfilledResult<T> => input.status === 'fulfilled'
 
 // 非同期関数を定義
 const processTweetsAsync = async (blockquotes: HTMLCollectionOf<Element>) => {
@@ -25,9 +26,12 @@ const processTweetsAsync = async (blockquotes: HTMLCollectionOf<Element>) => {
                 new Promise<void>((resolve, reject) => {
                     // console.log(quote)  // dom が帰る
                     try {
-                        if (!quote.hasAttribute('class')) reject("quote doesn't have class")
+                        if (!quote.hasAttribute('class'))
+                            reject("quote doesn't have class")
 
-                        const className = quote.getAttribute('class').split(/\s/)
+                        const className = quote
+                            .getAttribute('class')
+                            .split(/\s/)
 
                         if (!className.includes('twitter-tweet')) {
                             reject()

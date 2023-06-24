@@ -1,16 +1,16 @@
-interface KaisaiIds {
+export interface KaisaiIds {
     jra: Array<string>
     nar: Array<string>
 }
 
-interface RaceDetail {
+export interface RaceDetail {
     race_id: string
     org: 'jra' | 'nar'
     metadata: RaceMetadata
     entries: EntryData[]
 }
 
-interface RaceMetadata {
+export interface RaceMetadata {
     R:
         | '01'
         | '02'
@@ -39,7 +39,7 @@ interface RaceMetadata {
     weather: string
 }
 
-interface EntryData {
+export interface EntryData {
     barei: string
     gain: number
     horse_id: string
@@ -58,7 +58,7 @@ interface EntryData {
     weight: number
 }
 
-interface ResultData extends EntryData, RaceMetadata {
+export interface ResultData extends EntryData, RaceMetadata {
     rank: string
     time: number
     diff: string
@@ -69,7 +69,7 @@ interface ResultData extends EntryData, RaceMetadata {
     bounty: number
 }
 
-interface HorseRecord {
+export interface HorseRecord {
     horse_id: string
     results: ResultData[]
 }

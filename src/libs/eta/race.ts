@@ -4,18 +4,26 @@ import { mkdir, writeFile } from 'fs/promises'
 import { parseArgs } from 'node:util'
 
 import { default as constructPortal } from './portal'
-import { isNumber, makeFilepath } from './util'
+import {
+    isHorseRecord,
+    isKaisaiIds,
+    isNumber,
+    isRaceDetail,
+    isResultData,
+    makeFilepath,
+} from './util'
+import {
+    type KaisaiIds,
+    RaceDetail,
+    ResultData,
+    HorseRecord,
+} from './definition'
 
 // load `.env` file -----------------------------------------------------------
 // cf. https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 if (process.env.NODE_ENV !== 'production') {
-    // import 'dotenv/config'
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-var-requires
     require('dotenv').config()
-    // dynamic imports
-    // cf. https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports
-    // import('dotenv').then((dotenv) => {
-    //     dotenv.config()
-    // })
 }
 // ----------------------------------------------------------------------------
 
@@ -34,70 +42,6 @@ const eta = new Eta({
     autoEscape: false,
     views: path.join(__dirname, 'views'),
 })
-
-/**
- * User Defined Type Guard!
- */
-const isKaisaiIds = (arg: any): arg is KaisaiIds => {
-    if ('jra' in arg && 'nar' in arg) {
-        if (Array.isArray(arg.jra) && Array.isArray(arg.nar)) {
-            return true
-        }
-    }
-    return false
-}
-
-const isRaceDetail = (arg: any): arg is RaceDetail => {
-    // そもそもオブジェクトであるか判定
-    if (!isObject(arg)) {
-        return false
-    }
-
-    // 含まれていれば `RaceDetail` のはず
-    if (
-        'race_id' in arg &&
-        'org' in arg &&
-        'metadata' in arg &&
-        'entries' in arg
-    ) {
-        // TODO: もうちょいちゃんとやる
-        return true
-    }
-    return false
-}
-
-const isObject = (arg: any): arg is Object => {
-    return arg instanceof Object && !(arg instanceof Array) ? true : false
-}
-
-const isResultData = (arg: any): arg is ResultData => {
-    // if (!isRaceDetail(arg)) {
-    //     return false
-    // }
-
-    if (
-        'rank' in arg &&
-        'time' in arg &&
-        'diff' in arg &&
-        'rank_at_corner' in arg &&
-        'max_speed' in arg &&
-        'owner_id' in arg &&
-        'owner_name' in arg &&
-        'bounty' in arg
-    ) {
-        // TODO: もうちょいちゃんとやる
-        return true
-    }
-    return false
-}
-
-const isHorseRecord = (arg: any): arg is HorseRecord => {
-    if (isObject(arg) && 'horse_id' in arg && 'results' in arg) {
-        // TODO: もうちょいちゃんとやる
-        return true
-    }
-    return false
-}
 
 const main = async (dt?: string) => {
     // jra, nar をキーとした辞書になっている
@@ -151,21 +95,34 @@ const getKaisaiList = async (yyyymmdd: string): Promise<KaisaiIds> => {
     const url = `${ENDPOINT}/${entrypoint}`
     const query = new URLSearchParams({
         dt: yyyymmdd, // string
-        key: process.env.API_KEY,
+        key: process.env.API_KEY || '', // string
     })
-    const response = await fetch(`${url}?${query}`)
-    const data = await response.json()
+    const response = await fetch(`${url}?${query.toString()}`)
+    const data: unknown = await response.json()
 
     if (isKaisaiIds(data)) {
         // `production` じゃない場合、race_id 末尾が 11 のものだけを対象とする
         if (process.env.NODE_ENV !== 'production') {
             Object.keys(data).forEach((key) => {
-                const values_in_not_prod = data[key].filter((v) =>
-                    /11$/.test(v),
-                )
-                data[key] = values_in_not_prod
+                if (key == 'jra' || key == 'nar') {
+                    const values_in_not_prod = data[key].filter(
+                        (race_id: string) => /11$/.test(race_id),
+                    )
+                    data[key] = values_in_not_prod
+                }
             })
         }
+        // place_code が 65 なら、帯広のばんえい競馬なので除外する
+        Object.keys(data).forEach((key) => {
+            if (key == 'jra' || key == 'nar') {
+                const values_without_banei = data[key].filter(
+                    // const place_code = race_id.slice(4, 6)
+                    (race_id: string) => !/\w{4}65\w+/.test(race_id),
+                )
+                data[key] = values_without_banei
+            }
+        })
+        // finally ...
         return data
     } else {
         throw new Error(
@@ -215,10 +172,10 @@ const getRaceDetail = async (race_id: string, org: 'jra' | 'nar') => {
     const query = new URLSearchParams({
         race_id, // string
         org,
-        key: process.env.API_KEY,
+        key: process.env.API_KEY || '',
     })
-    const response = await fetch(`${url}?${query}`)
-    const data = await response.json()
+    const response = await fetch(`${url}?${query.toString()}`)
+    const data: unknown = await response.json()
 
     if (isRaceDetail(data)) {
         return data
@@ -236,18 +193,18 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
     // 野望：骨組みを渡して、Chat-GPT に執筆させる ←  あくまで野望なので、まず枠組みを完成させてから！
     // 現実的な案：過去データを取ってきて、統計情報の可視化（有利不利をわかりやすくする等）
     // race_detail があるので、df.query() にいい感じのリクエストができるはず
-    // →　そこから過去データは取れるのでは？
+    // → そこから過去データは取れるのでは？
     // 新馬は無理としても、それ以外の馬なら競走成績が取得できる
     // 新馬も peds は得られるので、それをレーティングすることもできるはず
     // この辺の構想は、過去のブログ記事を回顧するべきか
 
-    const { race_id, org, metadata, entries } = race_detail
+    const { race_id, metadata, entries } = race_detail
     const { name: title } = metadata
     const { R, direction, distance, regulation, schedule, track, timestamp } =
         metadata
     const R_i = R.padStart(2, '0')
     const place = schedule.replace(/\d+回*/i, '').replace(/\d+(日目)*/i, '')
-    const start_time = timestamp.split(/\s/).pop().slice(0, 5)
+    const start_time = (timestamp.split(/\s/).pop() || '').slice(0, 5)
     const description = `発走時刻 ${start_time} ${track} ${direction} ${distance}m`
 
     const promised_records = await Promise.allSettled(
@@ -325,38 +282,37 @@ const getRecordsFromPreviousResult = async (
     const url = `${ENDPOINT}/${entrypoint}`
     const query = new URLSearchParams({
         q: `horse_id == "${horse_id}" and timestamp < "${timestamp}"`,
-        key: process.env.API_KEY,
+        key: process.env.API_KEY || '',
     })
-    const response = await fetch(`${url}?${query}`)
+    const response = await fetch(`${url}?${query.toString()}`)
 
-    try {
-        const { data } = await response.json()
-        if (!Array.isArray(data)) {
-            throw new Error(
-                '[getRecordsFromPreviousResult] Invalid value is returned from server.' +
-                    'Check that the vars `url` and `query` are set to the correct values.' +
-                    `horse_id is ${horse_id}`,
-            )
-        } else {
-            const results = data.filter(isResultData)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { data } = await response.json()
+    if (!Array.isArray(data)) {
+        throw new Error(
+            '[getRecordsFromPreviousResult] Invalid value is returned from server.' +
+                'Check that the vars `url` and `query` are set to the correct values.' +
+                `horse_id is ${horse_id}`,
+        )
+    } else {
+        const results = data.filter(isResultData)
 
-            results.sort(
-                (a, b) =>
-                    // order by desc
-                    new Date(b.timestamp).getTime() -
-                    new Date(a.timestamp).getTime(),
-            )
+        results.sort(
+            (a, b) =>
+                // order by desc
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime(),
+        )
 
-            return { horse_id, results }
-        }
-    } catch (err) {
-        throw err
+        return { horse_id, results }
     }
 }
 
 // horse_id をキーとするオブジェクトを返す
 // 値の中身は、「オブジェクトの配列」
-const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
+const getChartData = (
+    records: HorseRecord[],
+): { [key: string]: unknown[] } => {
     const key_and_value_list = records.map((record) => {
         const { horse_id, results } = record
         const data = results.map((result) => {
@@ -370,7 +326,7 @@ const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
                 waku,
             } = result
             return {
-                name: timestamp.split(/\s+|T/).shift(),
+                name: timestamp.split(/\s+|T/).shift() || '',
                 race_id,
                 rank,
                 rank_at_corner,
@@ -390,6 +346,7 @@ const getChartData = (records: HorseRecord[]): { [key: string]: any[] } => {
         )
         return [horse_id, data]
     })
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return Object.fromEntries(key_and_value_list)
 }
 
