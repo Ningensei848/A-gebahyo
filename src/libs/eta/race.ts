@@ -198,7 +198,7 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
     // 新馬も peds は得られるので、それをレーティングすることもできるはず
     // この辺の構想は、過去のブログ記事を回顧するべきか
 
-    const { race_id, metadata, entries } = race_detail
+    const { race_id, org, metadata, entries } = race_detail
     const { name: title } = metadata
     const { R, direction, distance, regulation, schedule, track, timestamp } =
         metadata
@@ -229,6 +229,7 @@ const renderToMarkdown = async (race_detail: RaceDetail) => {
 
     const props = {
         race_id,
+        org,
         title: `${title}【R${R_i}】`,
         records,
         data: getChartData(records), // horse_id をキーとするオブジェクトを返す

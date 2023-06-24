@@ -56,7 +56,7 @@ import RankTransition from '@site/src/components/visualise/RankTransition'
 <% /* Under construction */ %>
 ## 出典
 <%= nl %>
-<% const sub_domain = it.org == 'jra' ? 'race' : 'nar' %>
+<% const sub_domain = it.org === 'jra' ? 'race' : 'nar' %>
 <% const source_url = `https://${sub_domain}.netkeiba.com/race/shutuba.html?race_id=${it.race_id}` %>
 > [Read more](<%= source_url %>)
 <%= br%>
