@@ -2,7 +2,13 @@
 
 # A-gebahyo: the rest nowhere
 
-https://a-gebahyo.pages.dev
+[![日本中央競馬会（にっぽんちゅうおうけいばかい、Japan Racing Association、略称：JRA）](https://upload.wikimedia.org/wikipedia/commons/d/d0/Japan_Racing_Association_logo.svg)](https://ningensei848.github.io/A-gebahyo/)
+
+ver. JRA: https://ningensei848.github.io/A-gebahyo/
+
+[![地方競馬全国協会（ちほうけいばぜんこくきょうかい、英称：National Association of Racing）](https://www.keiba.go.jp/img/association/pic_nra_logo.jpg)](https://a-gebahyo.pages.dev/)
+
+ver. NAR: https://a-gebahyo.pages.dev/ （工事中）
 
 ## Features
 
