@@ -78,10 +78,7 @@ jobs:
 
             - name: Build website
               working-directory: ${{ github.workspace }}
-              run: |
-                  git fetch
-                  git checkout -m origin/main content/docs/index.mdx content/docs/about.mdx
-                  npm run build
+              run: npm run build
               env:
                   GOOGLE_ADSENSE_ID: ${{ secrets.GOOGLE_ADSENSE_ID }}
                   GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
