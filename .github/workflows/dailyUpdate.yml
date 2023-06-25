@@ -22,7 +22,6 @@ jobs:
             # cf. https://docs.github.com/ja/actions/learn-github-actions/contexts#secrets-context
             ENDPOINT: ${{ secrets.ENDPOINT }}
             API_KEY: ${{ secrets.API_KEY }}
-            ANOTHER_REPO: ${{ secrets.ANOTHER_REPO }}
             APP_ID: ${{ secrets.APP_ID }}
             APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -48,7 +47,7 @@ jobs:
             - name: Checkout Another Repo
               uses: actions/checkout@v3
               with:
-                  repository: ${{ env.ANOTHER_REPO }}
+                  repository: Ningensei848/A-gebahyo-docs
                   # `GH_PAT` is a secret that contains your PAT
                   # cf. https://github.com/actions/checkout#Checkout-multiple-repos-private
                   token: ${{ steps.generate_token.outputs.token }}
