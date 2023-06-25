@@ -282,7 +282,13 @@ const config = {
                     //   position: 'left',
                     //   label: 'Tutorial',
                     // },
-                    { to: '/about', label: 'about', position: 'left' },
+                    process.env.NODE_ENV === 'production'
+                        ? { to: '/about', label: 'about', position: 'left' }
+                        : {
+                              to: '/how-to-contribute',
+                              label: 'How to contribute',
+                              position: 'left',
+                          },
                     {
                         href: 'https://twitter.com/A_gebahyo',
                         position: 'right',
