@@ -6,9 +6,9 @@
 
 ver. JRA: https://ningensei848.github.io/A-gebahyo/
 
-[![地方競馬全国協会（ちほうけいばぜんこくきょうかい、英称：National Association of Racing）](https://www.keiba.go.jp/img/association/pic_nra_logo.jpg)](https://a-gebahyo.pages.dev/)
+[![地方競馬全国協会（ちほうけいばぜんこくきょうかい、National Association of Racing、略称：NAR）](https://www.keiba.go.jp/img/association/pic_nra_logo.jpg)](https://a-gebahyo.pages.dev/)
 
-ver. NAR: https://a-gebahyo.pages.dev/ （工事中）
+ver. NAR: https://a-gebahyo.pages.dev/
 
 ## Features
 

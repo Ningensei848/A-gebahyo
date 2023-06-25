@@ -186,7 +186,10 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    path: 'content/docs',
+                    path:
+                        process.env.NODE_ENV === 'production'
+                            ? 'content/docs'
+                            : 'content/dev',
                     routeBasePath: '/',
                     sidebarPath: require.resolve('./sidebars.js'),
                     remarkPlugins: [],
