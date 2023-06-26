@@ -1,0 +1,56 @@
+{
+    "name": "a-gebahyo-tweetbot",
+    "version": "0.0.0",
+    "description": "Tweet Automation for A-gebahyo",
+    "main": "postTweet.js",
+    "author": "Ningensei848",
+    "license": "ISC",
+    "private": true,
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "clasp open",
+        "postinstall": "node --eval 'process.exit(process.env.NODE_ENV === `production` ? 0 : 1)' || husky install",
+        "lint": "eslint 'src/**/*.ts'",
+        "lint-staged": "lint-staged",
+        "format": "prettier --ignore-path .gitignore --write './**/*.{js,ts,json}' --ignore-unknown"
+    },
+    "devDependencies": {
+        "@types/google-apps-script": "^1.0.64",
+        "@types/google-apps-script-oauth2": "^38.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.60.0",
+        "@typescript-eslint/parser": "^5.60.0",
+        "eslint": "^8.43.0",
+        "eslint-config-prettier": "^8.8.0",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.2",
+        "prettier": "^2.8.8",
+        "typescript": "^5.1.3"
+    },
+    "prettier": {
+        "printWidth": 79,
+        "tabWidth": 4,
+        "semi": false,
+        "singleQuote": true,
+        "jsxSingleQuote": true,
+        "trailingComma": "all",
+        "embeddedLanguageFormatting": "off"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "pre-push": "npm run lint"
+        }
+    },
+    "lint-staged": {
+        "*.@(ts|tsx)": [
+            "npm run lint",
+            "npm run format --ignore-unknown"
+        ],
+        "**/*": [
+            "npm run format --ignore-unknown"
+        ]
+    },
+    "engines": {
+        "node": ">=18.16"
+    }
+}

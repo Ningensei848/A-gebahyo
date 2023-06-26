@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "lib": ["esnext"],
+        "experimentalDecorators": true,
+        // additonal
+        "allowJs": true,
+        "target": "ESNext"
+    },
+    "exclude": ["**/node_modules/*"]
+}

@@ -16,6 +16,7 @@
         "compile": "swc src/${npm_config_dir} -d src --config-file src/.swcrc",
         "emit": "npm run compile --dir='plugins'",
         "dev": "npm run start",
+        "clasp": "cd src/libs/tweetBot && clasp push && clasp open && cd /Users/mac/Dev/a-gebahyo",
         "postinstall": "node --eval 'process.exit(process.env.NODE_ENV === `production` ? 0 : 1)' || husky install",
         "lint": "eslint \"{src,tests}/**/*.{ts,tsx}\"",
         "lint-staged": "lint-staged",
