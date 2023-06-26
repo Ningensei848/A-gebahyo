@@ -19,6 +19,7 @@ const typescriptESlintPlugin = require('@typescript-eslint/eslint-plugin')
 const react = require('eslint-plugin-react')
 const reactHooks = require('eslint-plugin-react-hooks')
 const prettier = require('eslint-config-prettier')
+const js = require('@eslint/js')
 // -------------------------------------------------------------------------------------------------------------------
 
 const typescriptParserOptions = {
@@ -47,7 +48,7 @@ const typescriptParserOptions = {
 const flatConfig = [
     /** Predefined Configs ----------------------------------------------------------------------------------------- */
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-predefined-configurations
-    'eslint:recommended',
+    js.configs.recommended,
     /** ------------------------------------------------------------------------------------------------------------ */
     // If you want to use configuration included in a plugin,　you must `import` object and refer to the property as follows:
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-configurations-included-in-plugins
