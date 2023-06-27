@@ -15,7 +15,7 @@ permissions:
 
 jobs:
     dailyUpdate:
-        name: Build Static Files by Docusaurus
+        name: Update Spread Sheets
         runs-on: ubuntu-latest
         timeout-minutes: 10
         env:
@@ -32,9 +32,9 @@ jobs:
                   cache: npm
                   cache-dependency-path: src/libs/tweetBot/package-lock.json
 
-            - id: 'auth'
-              name: 'Authenticate to Google Cloud'
-              uses: 'google-github-actions/auth@v1'
+            - name: Authenticate to Google Cloud
+              id: auth
+              uses: google-github-actions/auth@v1
               with:
                   # workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
                   # service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
@@ -49,6 +49,7 @@ jobs:
                   npm run compile
 
             - name: Update spread sheet
+              working-directory: src/libs/tweetBot
               run: node src/index.js
               env:
                   API_KEY: ${{ secrets.API_KEY }}
