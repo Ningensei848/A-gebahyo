@@ -146,4 +146,10 @@ export namespace MySheet {
     ) {
         return getValuesByTitle_(sheet, titleName, axis)
     }
+    export function _getSheetHeader(
+        sheet: GoogleAppsScript.Spreadsheet.Sheet,
+        axis = 0,
+    ): string[] {
+        return getSheetHeader_(sheet, axis)
+    }
 }

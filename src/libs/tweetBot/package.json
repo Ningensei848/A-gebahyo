@@ -8,7 +8,7 @@
     "private": true,
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "clasp open",
+        "dev": "clasp push && clasp open",
         "postinstall": "node --eval 'process.exit(process.env.NODE_ENV === `production` ? 0 : 1)' || husky install",
         "lint": "eslint 'src/**/*.ts'",
         "lint-staged": "lint-staged",

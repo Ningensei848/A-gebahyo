@@ -8,8 +8,6 @@ import { Util } from './mylib'
 // 参照元記事
 // cf. https://officeforest.org/wp/2023/01/14/google-apps-scriptからtwitter-apiをoauth2-0認証で使う/
 
-// 失敗したらLINE NOTIFY に通知させるようにしたい→OAuthが期限切れとかでも木づけるはず
-
 const isObject = Util._isObject
 
 //認証用の各種変数
@@ -34,7 +32,6 @@ export const startOAuth = () => {
             .setWidth(500)
             .setSandboxMode(HtmlService.SandboxMode.IFRAME)
         ui.showModalDialog(output, 'OAuth2.0認証')
-        logging(output)
     } else {
         //認証済みなので終了する
         ui.alert('すでに認証済みです。')
@@ -42,8 +39,6 @@ export const startOAuth = () => {
 
     return
 }
-
-const logging = (arg: unknown) => Logger.log(arg)
 
 /* FAQ: アクセストークンの期限について
  > アクセストークンは明示的に期限切れとなることはありません。
