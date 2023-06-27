@@ -17,7 +17,7 @@ const API_KEY = process.env.API_KEY || ''
 const ENDPOINT = process.env.ENDPOINT || ''
 const ENTRY_POINT = process.env.ENTRY_POINT || ''
 
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+const SCOPES = ['https://www.googleapis.com/auth/drive.file']
 const SHEET_ID = process.env.SPREADSHEET_ID || ''
 const SHEET_NAME = 'race_list'
 
