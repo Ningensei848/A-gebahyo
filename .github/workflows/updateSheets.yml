@@ -1,0 +1,57 @@
+name: hogehoge
+
+on:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+    schedule:
+        # * is a special character in YAML so you have to quote this string
+        - cron: '22 22 * * *'
+        # Review gh actions docs if you want to further define triggers, paths, etc
+        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+permissions:
+    contents: read
+    id-token: write
+
+jobs:
+    dailyUpdate:
+        name: Build Static Files by Docusaurus
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        env:
+            NODE_ENV: production
+        steps:
+            # actions/checkout MUST come before auth
+            - uses: 'actions/checkout@v3'
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+                  # cache strategy
+                  # cf. https://github.com/actions/setup-node/tree/v3/#caching-global-packages-data
+                  cache: npm
+                  cache-dependency-path: src/libs/tweetBot/package-lock.json
+
+            - id: 'auth'
+              name: 'Authenticate to Google Cloud'
+              uses: 'google-github-actions/auth@v1'
+              with:
+                  # workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+                  # service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+                  workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+                  service_account: ${{ secrets.SERVICE_ACCOUNT }}
+            # ... further steps are automatically authenticated ---------------
+
+            - name: Prepare modules
+              working-directory: src/libs/tweetBot
+              run: |
+                  npm install --omit=dev
+                  npm run compile
+
+            - name: Update spread sheet
+              run: node src/index.js
+              env:
+                  API_KEY: ${{ secrets.API_KEY }}
+                  ENDPOINT: ${{ secrets.ENDPOINT }}
+                  ENTRY_POINT: getRaceResult
+                  SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
