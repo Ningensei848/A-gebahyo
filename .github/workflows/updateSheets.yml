@@ -2,7 +2,7 @@ name: Update Spread Sheets Daily
 
 on:
     # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
+    # workflow_dispatch:
     schedule:
         # * is a special character in YAML so you have to quote this string
         - cron: '22 22 * * *'
@@ -42,17 +42,17 @@ jobs:
                   service_account: ${{ secrets.SERVICE_ACCOUNT }}
             # ... further steps are automatically authenticated ---------------
 
-            - name: Prepare modules
+            - name: Prepare Modules
               working-directory: src/libs/tweetBot
               run: |
                   npm install --omit=dev
                   npm run compile
 
-            - name: Update spread sheet
+            - name: Run Update Script
               working-directory: src/libs/tweetBot
               run: node src/index.js
               env:
                   API_KEY: ${{ secrets.API_KEY }}
                   ENDPOINT: ${{ secrets.ENDPOINT }}
-                  ENTRY_POINT: getRaceResult
+                  ENTRY_POINT: getRaceDetail
                   SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
