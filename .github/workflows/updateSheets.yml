@@ -1,4 +1,4 @@
-name: hogehoge
+name: Update Spread Sheets Daily
 
 on:
     # Allows you to run this workflow manually from the Actions tab
