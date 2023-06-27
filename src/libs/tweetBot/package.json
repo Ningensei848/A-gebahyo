@@ -9,7 +9,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "compile": "swc src -d src --config-file src/.swcrc",
-        "dev": "npm run compile && node src/index.js",
+        "dev": "npm run compile && GOOGLE_APPLICATION_CREDENTIALS=./gha-creds-test-temp.json node src/index.js",
+        "start": "sh sa-temp-key.sh && echo 'Thanks to @hankei6km !'",
         "postinstall": "node --eval 'process.exit(process.env.NODE_ENV === `production` ? 0 : 1)' || husky install",
         "lint": "eslint 'src/**/*.ts'",
         "lint-staged": "lint-staged",

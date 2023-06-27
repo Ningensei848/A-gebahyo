@@ -1,14 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
-import { sheets as getSheets, auth as sheetAuth } from '@googleapis/sheets'
+import { sheets as getSheets, auth } from '@googleapis/sheets'
 import { isMetadata_ as isMetadata } from './mylib'
 
 // load `.env` file -----------------------------------------------------------
 // cf. https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     require('dotenv').config()
 }
 // ----------------------------------------------------------------------------
@@ -29,7 +25,7 @@ interface KaisaiIds {
 }
 
 const main = async () => {
-    const authClient = await sheetAuth.getClient({
+    const authClient = await auth.getClient({
         scopes: SCOPES,
     })
     const sheets = getSheets({ version: 'v4', auth: authClient })
@@ -62,7 +58,8 @@ const getValuesFromKaisaiList = async (): Promise<Array<Row[]>> => {
     const today = new Date()
     const yyyymmdd = getFormattedDateString(today)
     const races = await getKaisaiList(yyyymmdd)
-    const races_all = races.jra.concat(races.nar)
+    const races_all = getFilteredRaces(races.jra.concat(races.nar))
+
     const promised_list = await Promise.allSettled(
         races_all.map((race_id: string) => getRowData(race_id)),
     )
@@ -80,6 +77,7 @@ const getValuesFromKaisaiList = async (): Promise<Array<Row[]>> => {
             }
         })
         .filter((row) => row.length > 2)
+
     // timestamp で sort する
     const rows_sorted = rows.sort((a, b): number => {
         if (typeof a[0] !== 'string' || typeof b[0] !== 'string') {
@@ -90,23 +88,7 @@ const getValuesFromKaisaiList = async (): Promise<Array<Row[]>> => {
         return t1 < t2 ? -1 : 1
     })
 
-    // Twitter の Rate Limit が一日あたり 50 件までなので、
-    // 50 件以下になるまで、1 ~ 12 R を削っていく
-    let rows_filtered: Array<Row[]> = [...rows_sorted]
-
-    if (rows_sorted.length > 50) {
-        for (let i = 1; i < 12; i++) {
-            // i 番目のレース行を削除する
-            rows_filtered = removeExtraRaces(rows_filtered, i)
-            if (rows_filtered.length > 50) {
-                continue
-            } else {
-                break
-            }
-        }
-    }
-
-    return [header, ...rows_filtered]
+    return [header, ...rows_sorted]
 }
 
 const getFormattedDateString = (dt: Date) => {
@@ -152,6 +134,26 @@ const getKaisaiList = async (yyyymmdd: string): Promise<KaisaiIds> => {
     }
 }
 
+const getFilteredRaces = (race_list: string[]): string[] => {
+    // Twitter の Rate Limit が一日あたり 50 件までなので、
+    // 50 件以下になるまで、1 ~ 12 R を削っていく
+    let filtered = [...race_list]
+
+    if (race_list.length > 50) {
+        for (let i = 1; i < 12; i++) {
+            // i 番目のレース行を削除する
+            filtered = removeExtraRaces(filtered, i)
+            if (filtered.length > 50) {
+                continue
+            } else {
+                break
+            }
+        }
+    }
+    // finally ...
+    return filtered
+}
+
 const getRowData = async (race_id: string): Promise<Array<Row>> => {
     const entrypoint = ENTRY_POINT
     const url = `${ENDPOINT}/${entrypoint}`
@@ -171,11 +173,12 @@ const getRowData = async (race_id: string): Promise<Array<Row>> => {
     }
 }
 
-const removeExtraRaces = (rows: Array<Row[]>, num: number): Array<Row[]> => {
+const removeExtraRaces = (race_id_list: string[], num: number): string[] => {
     const n = num.toString().padStart(2, '0')
     const regexp = new RegExp(`${n}$`)
 
-    return rows.filter((row) => regexp.test(String(row[1])))
+    // 正規表現に一致した race_id は返り値に含めない
+    return race_id_list.filter((race_id) => !regexp.test(race_id))
 }
 
 const isObject = (arg: unknown): arg is object => {
