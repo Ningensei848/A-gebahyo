@@ -1,20 +1,21 @@
 // POST /2/tweets | Docs | Twitter Developer Platform
 // cf. https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets
 
-import { Util } from './mylib'
-import { checkOAuth } from './oauth2'
+import { MyOAuth2 } from './oauth2'
 import { MySheet } from './spreadSheets'
+import { Util } from './mylib'
 
 // Workaround; on Googlg App Script, `import/export` does not work well ...
 // cf. https://github.com/google/clasp/blob/master/docs/typescript.md#the-namespace-statement-workaround
+const checkOAuth = MyOAuth2._checkOAuth
 const getSheetByName = MySheet._getSheetByName
-const getAllRowsAsObject = MySheet._getAllRowsAsObject
 const getSheetHeader = MySheet._getSheetHeader
+const getAllRowsAsObject = MySheet._getAllRowsAsObject
+const isRows = Util._isRows
 const isMetadata = Util._isMetadata
 const isRowObject = Util._isRowObject
-const isRows = Util._isRows
-const getQueryString = Util._getQueryString
 const notifyToLINE = Util._notifyToLINE
+const getQueryString = Util._getQueryString
 
 const tweet_endpoint = 'https://api.twitter.com/2/tweets'
 
@@ -91,7 +92,7 @@ const postTweet = (msg: string) => {
         const response = UrlFetchApp.fetch(tweet_endpoint, {
             method: 'post',
             headers,
-            muteHttpExceptions: true,
+            // muteHttpExceptions: true,
             payload: JSON.stringify(message),
             contentType: 'application/json',
         })

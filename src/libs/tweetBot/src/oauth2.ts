@@ -15,7 +15,12 @@ const props = PropertiesService.getScriptProperties()
 const client_id = props.getProperty('CLIENT_ID') || ''
 const client_secret = props.getProperty('CLIENT_SECRET') || ''
 const whitespace = ''.padEnd(1)
-const scope = ['tweet.write', 'users.read', 'offline.access'].join(whitespace)
+const scope = [
+    'tweet.read',
+    'tweet.write',
+    'users.read',
+    'offline.access',
+].join(whitespace)
 const authurl = 'https://twitter.com/i/oauth2/authorize'
 const tokenurl = 'https://api.twitter.com/2/oauth2/token'
 
@@ -24,7 +29,7 @@ export const startOAuth = () => {
     const ui = SpreadsheetApp.getUi()
 
     //認証済みかチェックする
-    const service = checkOAuth()
+    const service = checkOAuth_()
     if (!service.hasAccess()) {
         //認証画面を出力
         const output = HtmlService.createHtmlOutputFromFile('template')
@@ -49,7 +54,7 @@ export const startOAuth = () => {
 
 //アクセストークンURLを含んだHTMLを返す関数
 export const getOAuthPage = () => {
-    const service = checkOAuth()
+    const service = checkOAuth_()
     const authorizationUrl = service.getAuthorizationUrl()
 
     console.log(authorizationUrl)
@@ -62,7 +67,7 @@ export const getOAuthPage = () => {
 }
 
 //認証チェック
-export const checkOAuth = (): GoogleAppsScriptOAuth2.OAuth2Service => {
+const checkOAuth_ = (): GoogleAppsScriptOAuth2.OAuth2Service => {
     pkceChallengeVerifier()
     const prop = PropertiesService.getUserProperties()
 
@@ -89,7 +94,7 @@ export const checkOAuth = (): GoogleAppsScriptOAuth2.OAuth2Service => {
 
 //認証コールバック
 export const authCallback = (request: unknown) => {
-    const service = checkOAuth()
+    const service = checkOAuth_()
     const isAuthorized = isObject(request)
         ? service.handleCallback(request)
         : false
@@ -104,7 +109,7 @@ export const authCallback = (request: unknown) => {
 
 //ログアウト
 export const reset = () => {
-    checkOAuth().reset()
+    checkOAuth_().reset()
     SpreadsheetApp.getUi().alert('ログアウトしました。')
     return
 }
@@ -133,5 +138,12 @@ const pkceChallengeVerifier = () => {
             .replace(/=+$/, '')
         prop.setProperty('code_verifier', verifier)
         prop.setProperty('code_challenge', challenge)
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace MyOAuth2 {
+    export function _checkOAuth(): GoogleAppsScriptOAuth2.OAuth2Service {
+        return checkOAuth_()
     }
 }

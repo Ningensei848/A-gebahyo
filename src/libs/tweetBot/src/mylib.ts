@@ -38,14 +38,6 @@ export interface Row {
     is_posted: boolean
 }
 
-// const isString = (arg: unknown): arg is string => {
-//     if (typeof arg === 'string') {
-//         return true
-//     } else {
-//         return false
-//     }
-// }
-
 const isObject_ = (arg: unknown): arg is object => {
     return arg instanceof Object && !(arg instanceof Array) ? true : false
 }
@@ -98,24 +90,6 @@ const getQueryString_ = (obj: Record<string, unknown>, encode = false) => {
         })
         .join('&')
 }
-
-// LINE_NOTIFY_TOKEN = os.environ.get("LINE_NOTIFY_TOKEN", None)
-
-// def Notify2LINE(message, *args):
-//     # 諸々の設定
-//     line_notify_api = "https://notify-api.line.me/api/notify"
-//     headers = {"Authorization": "Bearer " + LINE_NOTIFY_TOKEN}
-
-//     # メッセージ
-//     payload = {"message": message}
-
-//     # 画像を含むか否か
-//     if len(args) == 0:
-//         requests.post(line_notify_api, data=payload, headers=headers)
-//     else:
-//         # 画像
-//         files = {"imageFile": open(args[0], "rb")}
-//         requests.post(line_notify_api, data=payload, headers=headers, files=files)
 
 const notifyToLINE_ = (msg: string) => {
     const line_notify_endpoint = 'https://notify-api.line.me/api/notify'
