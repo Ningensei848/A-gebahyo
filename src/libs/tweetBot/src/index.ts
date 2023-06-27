@@ -43,12 +43,9 @@ const main = async () => {
         },
         auth: authClient,
     }
-    try {
-        // Update
-        await sheets.spreadsheets.values.update(request)
-    } catch (err) {
-        console.error(err)
-    }
+
+    // Update
+    await sheets.spreadsheets.values.update(request)
 
     // finally ...
     return
@@ -203,4 +200,6 @@ promise
     })
     .catch((error) => {
         console.error(error)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        throw Error(error)
     })

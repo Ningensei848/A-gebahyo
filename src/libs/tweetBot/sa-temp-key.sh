@@ -5,8 +5,12 @@
 
 set -e
 
-PROJECT_ID="<PROJECT_ID>"
-SA_EMAIL="<SERVICE_EMAIL>"
+# PROJECT_ID="<PROJECT_ID>"
+# SA_EMAIL="<SERVICE_EMAIL>"
+
+# ./.envファイルを読み込んで変数として参照できるようにする
+source ./.env
+
 FILE_BASE_NAME="temp"
 
 FILE_NAME="gha-creds-test-${FILE_BASE_NAME}.json"
