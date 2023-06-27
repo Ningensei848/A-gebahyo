@@ -8,17 +8,24 @@
     "private": true,
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "clasp push && clasp open",
+        "compile": "swc src -d src --config-file src/.swcrc",
+        "dev": "npm run compile && node src/index.js",
         "postinstall": "node --eval 'process.exit(process.env.NODE_ENV === `production` ? 0 : 1)' || husky install",
         "lint": "eslint 'src/**/*.ts'",
         "lint-staged": "lint-staged",
         "format": "prettier --ignore-path .gitignore --write './**/*.{js,ts,json}' --ignore-unknown"
+    },
+    "dependencies": {
+        "@googleapis/sheets": "^4.0.2",
+        "@swc/cli": "^0.1.62",
+        "@swc/core": "^1.3.66"
     },
     "devDependencies": {
         "@types/google-apps-script": "^1.0.64",
         "@types/google-apps-script-oauth2": "^38.0.0",
         "@typescript-eslint/eslint-plugin": "^5.60.0",
         "@typescript-eslint/parser": "^5.60.0",
+        "dotenv": "^16.3.1",
         "eslint": "^8.43.0",
         "eslint-config-prettier": "^8.8.0",
         "husky": "^8.0.3",

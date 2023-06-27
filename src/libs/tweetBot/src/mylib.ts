@@ -32,7 +32,7 @@ interface Metadata {
     org: 'jra' | 'nar'
 }
 
-interface Row {
+export interface Row {
     timestamp: string
     race_id: string | number
     is_posted: boolean
@@ -50,7 +50,7 @@ const isObject_ = (arg: unknown): arg is object => {
     return arg instanceof Object && !(arg instanceof Array) ? true : false
 }
 
-const isMetadata_ = (arg: unknown): arg is Metadata => {
+export const isMetadata_ = (arg: unknown): arg is Metadata => {
     if (isObject_(arg) && 'metadata' in arg && 'org' in arg) {
         return true
     }

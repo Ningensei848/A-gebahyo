@@ -11,3 +11,5 @@
 # ignore even valid files if in…
 .git/**
 node_modules/**
+src/index.ts
+src/.swcrc

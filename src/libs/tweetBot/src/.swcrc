@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "minify": true,
+    "module": {
+        "type": "commonjs",
+        "strict": true,
+        "noInterop": true
+    },
+    "exclude": [".*.d.ts$", ".*.js$", ".*.map$"],
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": false,
+            "dynamicImport": false
+        },
+        "target": "es2022",
+        "baseUrl": "."
+    }
+}
