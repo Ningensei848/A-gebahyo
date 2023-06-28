@@ -19,7 +19,9 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 3
         env:
+            TZ: 'Asia/Tokyo'
             NODE_ENV: production
+
         steps:
             # actions/checkout MUST come before auth
             - uses: 'actions/checkout@v3'
