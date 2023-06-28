@@ -1,21 +1,21 @@
 ## TODO:
 
--   [ ] submodule への移行
+-   [x] submodule への移行
 -   [ ] 枠番と文字色をあわせる（ようなコンポネントを実装する）
 -   [ ] docusaurus 側に MDX が多すぎて詰んだおという報告を出す
 -   [ ] NotFound ページに魚拓への導線を追加
--   [ ] ver. JRA のページをド平日に更新すると内容が消えてしまうので例外処理を追加
+-   [x] ver. JRA のページをド平日に更新すると内容が消えてしまうので例外処理を追加
 -   [ ] Contribute 環境の整備
-    -   [ ] サンプル MDX の準備
-    -   [ ] Contribute.md を書く
+    -   [x] サンプル MDX の準備
+    -   [x] Contribute.md を書く
         -   cf. https://github.com/github/docs/blob/main/CONTRIBUTING.md
     -   [ ] issue template: https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/manually-creating-a-single-issue-template-for-your-repository
         -   PR のテンプレートもある
         -   https://zenn.dev/ianchen0419/articles/0799b2f2831909
 -   [ ] Top ページ(Home) の自動生成
 -   [ ] PieChart の充実
--   [ ] 自動ツイート
-    -   [ ] GAS x Spreadsheet + シートに書き込む定期実行関数
+-   [x] 自動ツイート
+    -   [x] GAS x Spreadsheet + シートに書き込む定期実行関数
 -   [ ] `prism-react-renderer` のバージョンを上げるかどうか検証
 -   [x] Google Tag Manager の準備
 -   [ ] Feed
