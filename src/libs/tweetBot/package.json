@@ -11,9 +11,7 @@
         "compile": "swc src -d src --config-file src/.swcrc",
         "dev": "npm run compile && GOOGLE_APPLICATION_CREDENTIALS=./gha-creds-test-temp.json node src/index.js",
         "start": "sh sa-temp-key.sh && echo 'Thanks to @hankei6km !'",
-        "postinstall": "node --eval 'process.exit(process.env.NODE_ENV === `production` ? 0 : 1)' || husky install",
         "lint": "eslint 'src/**/*.ts'",
-        "lint-staged": "lint-staged",
         "format": "prettier --ignore-path .gitignore --write './**/*.{js,ts,json}' --ignore-unknown"
     },
     "dependencies": {
@@ -24,15 +22,13 @@
     "devDependencies": {
         "@types/google-apps-script": "^1.0.64",
         "@types/google-apps-script-oauth2": "^38.0.0",
-        "@typescript-eslint/eslint-plugin": "^5.60.0",
-        "@typescript-eslint/parser": "^5.60.0",
+        "@typescript-eslint/eslint-plugin": "^5.60.1",
+        "@typescript-eslint/parser": "^5.60.1",
         "dotenv": "^16.3.1",
         "eslint": "^8.43.0",
         "eslint-config-prettier": "^8.8.0",
-        "husky": "^8.0.3",
-        "lint-staged": "^13.2.2",
         "prettier": "^2.8.8",
-        "typescript": "^5.1.3"
+        "typescript": "^5.1.5"
     },
     "prettier": {
         "printWidth": 79,
