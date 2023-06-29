@@ -6,7 +6,7 @@
 # cf. https://github.com/eta-dev/eta/blob/main/.github/ISSUE_TEMPLATE/feature_request.md
 
 name: 🚀 追加機能のリクエスト
-description: Feature Request の日本語版
+description: '[Get started] を選択して送信フォームを作成してください'
 title: '[Feature]: '
 labels: ['feature', 'triage']
 assignees:

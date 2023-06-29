@@ -2,8 +2,8 @@
 # cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
 # cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
 
-name: 🐛 Bug Report (for Users)
-description: File a bug report for general users
+name: 🐛 バグを報告する
+description: '[Get started] を選択して送信フォームを作成してください'
 title: '[Bug]: '
 labels: ['bug', 'triage']
 assignees:
@@ -34,20 +34,6 @@ body:
               - Other
       validations:
           required: true
-    # - type: textarea
-    #   id: logs
-    #   attributes:
-    #       label: Relevant log output
-    #       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-    #       render: Shell
-    # - type: checkboxes
-    #   id: terms
-    #   attributes:
-    #       label: Code of Conduct
-    #       description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-    #       options:
-    #           - label: I agree to follow this project's Code of Conduct
-    #             required: true
     - type: markdown
       attributes:
           value: 'バグ報告にご協力いただき感謝申し上げます!! 今後ともよろしくお願いいたします m(_ _)m'
