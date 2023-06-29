@@ -1,44 +1,15 @@
 ## TODO:
 
--   [x] submodule への移行
+-   [ ] A-gebahyo の紹介記事を書く
+    -   [ ] TODO 機能等（というか memo.md ）を GitHub Projects へ移行
 -   [ ] 枠番と文字色をあわせる（ようなコンポネントを実装する）
 -   [ ] docusaurus 側に MDX が多すぎて詰んだおという報告を出す
 -   [ ] NotFound ページに魚拓への導線を追加
--   [x] ver. JRA のページをド平日に更新すると内容が消えてしまうので例外処理を追加
--   [ ] Contribute 環境の整備
-    -   [x] サンプル MDX の準備
-    -   [x] Contribute.md を書く
-        -   cf. https://github.com/github/docs/blob/main/CONTRIBUTING.md
-    -   [ ] issue template: https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/manually-creating-a-single-issue-template-for-your-repository
-        -   PR のテンプレートもある
-        -   https://zenn.dev/ianchen0419/articles/0799b2f2831909
 -   [ ] Top ページ(Home) の自動生成
 -   [ ] PieChart の充実
--   [x] 自動ツイート
-    -   [x] GAS x Spreadsheet + シートに書き込む定期実行関数
--   [ ] `prism-react-renderer` のバージョンを上げるかどうか検証
--   [x] Google Tag Manager の準備
--   [ ] Feed
--   [x] search console
--   [x] adsense
-    -   [x] サイト全体の見た目を整える
--   [x] 体重グラフ　横 padding
--   [x] コーナー順位　横 padding
--   [x] 出力できなかったレースについて、ログを残す
--   [x] eta template の分割
-    -   [x] 新馬戦にも体重とかコーナーの遷移があるので消す
-
-## カイゼン
-
--   強いビルド環境
-
-cloudflare pages で client/server buiild は complete したのにデプロイがコケた
-
-仕方がないので、`pages.dev` では nar を、`github.io/A-gebahyo` では JRA をやろう
-
--   result_table の見た目を調整 by CSS
--   タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent
-    -   `tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える
+-   [ ] Feed 機能の検討
+-   [ ] A-gebahyo とは別に、騎手・調教師・陣営別の分析サイトの検討
+-   [ ] result_table の見た目を調整 by CSS
 
 ## あとまわし
 
@@ -203,6 +174,40 @@ repoA は public にして、repoB は private にしておく
     -   [x] checkout 後に repo A を clone する & `content/docs/` 以下に移動させてビルド
     -   [x] ビルド（記事生成＋ブログ出力）
 -   ~~[x] GitHub Pages を Private の上で設定~~
+
+## Completed TODO List
+
+-   [x] submodule への移行
+-   [x] ver. JRA のページをド平日に更新すると内容が消えてしまうので例外処理を追加
+-   [x] Contribute 環境の整備
+    -   [x] サンプル MDX の準備
+    -   [x] Contribute.md を書く
+        -   cf. https://github.com/github/docs/blob/main/CONTRIBUTING.md
+    -   [x] issue template: https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/manually-creating-a-single-issue-template-for-your-repository
+        -   [x] PR のテンプレートもある
+        -   https://zenn.dev/ianchen0419/articles/0799b2f2831909
+-   [x] 自動ツイート
+    -   [x] GAS x Spreadsheet + シートに書き込む定期実行関数
+-   [x] ~~`prism-react-renderer` のバージョンを上げるかどうか検証~~
+-   [x] Google Tag Manager の準備
+-   [x] search console
+-   [x] adsense
+    -   [x] サイト全体の見た目を整える
+-   [x] 体重グラフ　横 padding
+-   [x] コーナー順位　横 padding
+-   [x] 出力できなかったレースについて、ログを残す
+-   [x] eta template の分割
+    -   [x] 新馬戦にも体重とかコーナーの遷移があるので消す
+
+## カイゼン
+
+-   ~~タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent~~
+    -   ~~`tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える~~
+    -   タグ検索機能はビルド時に負荷がかかりすぎる（？）ので廃止
+-   強いビルド環境
+    -   cloudflare pages で client/server buiild は complete したのにデプロイがコケた
+    -   仕方がないので、`pages.dev` では nar を、`github.io/A-gebahyo` では JRA をやろう
+        -   Done !
 
 </details>
 <!-- ---------------------------------------------------------------------- -->
