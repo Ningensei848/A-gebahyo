@@ -1,0 +1,51 @@
+# テンプレートの仕組みと書き方
+# cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+# cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+
+# 構造を参考にしたもの
+# cf. https://github.com/eta-dev/eta/blob/main/.github/ISSUE_TEMPLATE/feature_request.md
+
+name: 🚀 追加機能のリクエスト
+description: Feature Request の日本語版
+title: '[Feature]: '
+labels: ['feature', 'triage']
+assignees:
+    - Ningensei848
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Thanks for taking the time to fill out this feature request!
+    - type: textarea
+      id: describe
+      attributes:
+          label: Step 1. ことの発端について
+          description: そもそも何がどのように問題だったのか記述してください
+          placeholder: ex. いつも次のような機能にイライラしています、これが XX で OO ならば……（以下略
+      validations:
+          required: true
+    - type: textarea
+      id: solution
+      attributes:
+          label: Step 2. あなたの考える解決策について
+          description: 何がどのように動作すれば嬉しいか、詳細かつ明確に記述してください
+          placeholder: please describe what you want to happen
+      validations:
+          required: true
+    - type: textarea
+      id: solution-alt
+      attributes:
+          label: Step 3. 異なるアプローチについて (自由記述)
+          description: 他に検討した策があれば教えてください
+      validations:
+          required: false
+    - type: textarea
+      id: additional-context
+      attributes:
+          label: Step 4. さいごに (自由記述)
+          description: 追加の情報や、他になにかお気づきのことあればお伝えください
+      validations:
+          required: false
+    - type: markdown
+      attributes:
+          value: 'ご協力いただきありがとうございました'
