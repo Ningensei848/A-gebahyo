@@ -5,7 +5,7 @@
 name: 🐛 バグを報告する
 description: '[Get started] を選択して送信フォームを作成してください'
 title: '[Bug]: '
-labels: ['bug', 'triage']
+labels: ['bug']
 assignees:
     - Ningensei848
 body:

@@ -8,7 +8,7 @@
 name: 🐛 Bug Report (for Developers)
 description: File a bug report for developers
 title: '[Bug]: '
-labels: ['bug', 'triage']
+labels: ['bug']
 assignees:
     - Ningensei848
 body:

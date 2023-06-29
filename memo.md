@@ -1,16 +1,3 @@
-## TODO:
-
--   [ ] A-gebahyo の紹介記事を書く
-    -   [ ] TODO 機能等（というか memo.md ）を GitHub Projects へ移行
--   [ ] 枠番と文字色をあわせる（ようなコンポネントを実装する）
--   [ ] docusaurus 側に MDX が多すぎて詰んだおという報告を出す
--   [ ] NotFound ページに魚拓への導線を追加
--   [ ] Top ページ(Home) の自動生成
--   [ ] PieChart の充実
--   [ ] Feed 機能の検討
--   [ ] A-gebahyo とは別に、騎手・調教師・陣営別の分析サイトの検討
--   [ ] result_table の見た目を調整 by CSS
-
 ## あとまわし
 
 -   ~~もし金曜だったら、土日のレースの記事を生成する機能~~
