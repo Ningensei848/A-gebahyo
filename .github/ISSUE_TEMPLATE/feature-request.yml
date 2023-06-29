@@ -8,7 +8,7 @@
 name: 🚀 Feature request
 description: File suggest an idea for this project
 title: '[Feature]: '
-labels: ['feature', 'triage']
+labels: ['enhancement', 'triage']
 assignees:
     - Ningensei848
 body:
