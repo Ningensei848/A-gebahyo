@@ -3,8 +3,8 @@
 -   ~~もし金曜だったら、土日のレースの記事を生成する機能~~
 -   `husky` `lint-staged` 等の開発時に便利な機能のカスタマイズ
 -   検索機能
--   タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent
-    -   `tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える
+-   ~~タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent~~
+    -   ~~`tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える~~
 -   PoC: 関数それ自体も props として与えれば、eta 側でも使えるんじゃね？　 → 　 getRecordsFromPreviousResult() を eta 側でやらせたほうが、より並列化されるため
 
 -   静的サイトのホスティング先
@@ -18,8 +18,8 @@
 -   introduction に「注目レース」をピックアップする処理
 -   ChatGPT 連携で記事生成
 -   写真追加（多分 next.js が必要；サーバ側で処理する必要がある）
--   jockey, trainer ごとのページをつくる
-    -   race ではなく、人に注目して作成
+-   ~~jockey, trainer ごとのページをつくる~~
+    -   ~~race ではなく、人に注目して作成~~
 -   脚質判定
 -   entries(result) における `diff` は、先頭との差にしたい
 -   ReCharts で ToolTip をカスタマイズして見やすく（体重データに競走結果を乗せるとか）
@@ -30,10 +30,6 @@
     -   特定の枠だけ表示する機能も欲しい
     -   ついでに「画像出力」できるように
     -   GUI 入力でデータ追加して可視化できたら嬉しそう（簡易シミュができるとうれしい）
-
-## グラフでほしいもの
-
--   PieChart
 
 ### LineChart:
 
@@ -56,36 +52,7 @@
 
 ## Github Actions
 
-頻度について：
-
--   ~~当日の最終レースが NAR の最も遅いもので 20:30 発走とか~~
--   ~~なので、次の日のレースについてはそのくらいの時間には……と考えていたら、未だ内容が更新されないことがある~~
--   ~~時間を区切るか、~~複数回の更新が必要
-    -   ~~21:30 には終わっとるやろ！ｗ　ということで、cron を UTC 12:34 に設定~~
-    -   よる２１時くらい＋朝８時くらいの２回更新
-
 セキュリティのやつ：　https://engineering.mercari.com/blog/entry/20230609-github-actions-guideline/
-
--   repoA: eta.js で MDX 生成 & index.mdx だけ main にプッシュ & `/docs/YYYY/*` を repoB に push
--   repoB: repoA を clone してきて main にある `/docs/YYYY/*` をビルド & ホスト先にデプロイ
-
-repoA は public にして、repoB は private にしておく
-（ロジックは公開するが、コンテンツはあくまで非公開）
-
--   GitHub Actions で コンテンツ生成
--   Cloudflare Pages でビルド&デプロイ
-
-    -   files limit が 20000 なので、案外早く利用不能になりそう
-
--   GitHub Pages の場合はもっと少なくて、1GB に達してはいけないようだ
-
--   結局のところ、長期利用を考えると上記以外のクラウドサービスを利用することになりそうだ
--   ローンチから一年までは Cloudflare pages それ以降は GCS + Cloud CDN みたいな構成か
-
--   eta の部分は計算機が貧弱でもある程度耐えるが、ビルド部分には強力な物が必要
--   スポット利用できる仕組みを考案せねばならない……
-    -   Cloud Build ? Cloud Deploy ?
-    -   GitHub x GCP は OIDC 連携するとセキュリティ的に安心
 
 ## ぶつかった壁
 
@@ -162,6 +129,28 @@ repoA は public にして、repoB は private にしておく
     -   [x] ビルド（記事生成＋ブログ出力）
 -   ~~[x] GitHub Pages を Private の上で設定~~
 
+-   repoA: eta.js で MDX 生成 & index.mdx だけ main にプッシュ & `/docs/YYYY/*` を repoB に push
+-   repoB: repoA を clone してきて main にある `/docs/YYYY/*` をビルド & ホスト先にデプロイ
+
+repoA は public にして、repoB は private にしておく
+（ロジックは公開するが、コンテンツはあくまで非公開）
+
+-   GitHub Actions で コンテンツ生成
+-   Cloudflare Pages でビルド&デプロイ
+
+    -   files limit が 20000 なので、案外早く利用不能になりそう
+
+-   GitHub Pages の場合はもっと少なくて、1GB に達してはいけないようだ
+
+-   結局のところ、長期利用を考えると上記以外のクラウドサービスを利用することになりそうだ
+-   ローンチから一年までは Cloudflare pages それ以降は GCS + Cloud CDN みたいな構成か
+
+-   eta の部分は計算機が貧弱でもある程度耐えるが、ビルド部分には強力な物が必要
+-   スポット利用できる仕組みを考案せねばならない……
+    -   Cloud Build ? Cloud Deploy ?
+    -   ~~GitHub x GCP は OIDC 連携するとセキュリティ的に安心~~
+        -   GitHub OIDC 接続完了
+
 ## Completed TODO List
 
 -   [x] submodule への移行
@@ -191,10 +180,15 @@ repoA は public にして、repoB は private にしておく
 -   ~~タグ検索したときの表示順制御 → BlogTagsPostsPage とか BlogTagsPostsPageContent~~
     -   ~~`tags` ページでの並ぶ順を、「アルファベット順」から「更新順」にすげ替える~~
     -   タグ検索機能はビルド時に負荷がかかりすぎる（？）ので廃止
--   強いビルド環境
-    -   cloudflare pages で client/server buiild は complete したのにデプロイがコケた
-    -   仕方がないので、`pages.dev` では nar を、`github.io/A-gebahyo` では JRA をやろう
-        -   Done !
+-   強いビルド環境 - cloudflare pages で client/server buiild は complete したのにデプロイがコケた - 仕方がないので、`pages.dev` では nar を、`github.io/A-gebahyo` では JRA をやろう - Done !
+
+頻度について：
+
+-   ~~当日の最終レースが NAR の最も遅いもので 20:30 発走とか~~
+-   ~~なので、次の日のレースについてはそのくらいの時間には……と考えていたら、未だ内容が更新されないことがある~~
+-   ~~時間を区切るか、~~複数回の更新が必要
+    -   ~~21:30 には終わっとるやろ！ｗ　ということで、cron を UTC 12:34 に設定~~
+    -   よる２１時くらい＋朝８時くらいの２回更新
 
 </details>
 <!-- ---------------------------------------------------------------------- -->
