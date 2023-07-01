@@ -77,3 +77,13 @@ jobs:
                   git add .
                   git commit -m "[GitHub Actions BOT] Articles updated || $(date)"
                   git push
+
+            - name: Sync with Submodule
+              run: |
+                  git config --local user.name ${{ env.BOT_USERNAME }}
+                  git config --local user.email ${{ env.BOT_EMAIL }}
+                  git submodule update --remote --recursive
+                  git status
+                  git add .
+                  git commit -m "[GitHub Actions BOT] Sync with Submodule || $(date)"
+                  git push
