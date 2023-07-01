@@ -1,19 +1,19 @@
-import React from 'react'
 import clsx from 'clsx'
-import { ThemeClassNames } from '@docusaurus/theme-common'
-import {
-    useDoc,
-    type DocContextValue,
-} from '@docusaurus/theme-common/internal'
+
 import LastUpdated from '@theme/LastUpdated'
 import EditThisPage from '@theme/EditThisPage'
-import TagsListInline, {
-    type Props as TagsListInlineProps,
-} from '@theme/TagsListInline'
+
+import NextShare from '@site/src/components/NextShareButtons'
 
 import styles from './styles.module.css'
 
-import NextShare from '@site/src/components/NextShareButtons'
+import { ThemeClassNames } from '@docusaurus/theme-common'
+import { useDoc } from '@docusaurus/theme-common/internal'
+
+import { type DocContextValue } from '@docusaurus/theme-common/internal'
+import TagsListInline, {
+    type Props as TagsListInlineProps,
+} from '@theme/TagsListInline'
 
 function TagsRow(props: TagsListInlineProps) {
     return (

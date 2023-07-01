@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     LineChart,
     Line,
@@ -22,7 +21,7 @@ interface RankTransitionProps {
     }>
 }
 
-const RankTransition: React.FC<RankTransitionProps> = (props) => {
+function RankTransition(props: RankTransitionProps): JSX.Element {
     const [values, stroke_color] = getValues(props)
     const race_id_list = Object.keys(values[0]).filter((v) => v !== 'name')
 
