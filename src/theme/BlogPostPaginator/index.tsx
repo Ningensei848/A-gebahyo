@@ -1,6 +1,6 @@
-import React from 'react'
 import Translate, { translate } from '@docusaurus/Translate'
 import PaginatorNavLink from '@theme/PaginatorNavLink'
+
 import type { Props } from '@theme/BlogPostPaginator'
 
 export default function BlogPostPaginator(props: Props): JSX.Element {

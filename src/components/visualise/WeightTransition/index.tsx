@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     LineChart,
     Line,
@@ -35,25 +34,23 @@ interface WeightTransitionProps {
     data: Array<{ [key: string]: string | number }>
 }
 
-const VectorizedStar: React.FC<{
-    cx: number
-    cy: number
-    color: string
-}> = (props) => (
-    <svg
-        // xmlns='http://www.w3.org/2000/svg'  // html に埋め込んで使う場合には不要
-        x={props.cx - 10}
-        y={props.cy - 10}
-        width={16}
-        height={16}
-        fill={props.color}
-        viewBox='0 0 24 24'
-    >
-        <path d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z' />
-    </svg>
-)
+function VectorizedStar(props: { cx: number; cy: number; color: string }) {
+    return (
+        <svg
+            // xmlns='http://www.w3.org/2000/svg'  // html に埋め込んで使う場合には不要
+            x={props.cx - 10}
+            y={props.cy - 10}
+            width={16}
+            height={16}
+            fill={props.color}
+            viewBox='0 0 24 24'
+        >
+            <path d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z' />
+        </svg>
+    )
+}
 
-const CustomizedDot: React.FC<CustomizedDotProps> = (props) => {
+function CustomizedDot(props: CustomizedDotProps) {
     const { cx, cy, payload } = props // value はその dot に与えられた値
     const { rank } = payload // payload は value を含む元データの一要素
 
@@ -74,7 +71,7 @@ const CustomizedDot: React.FC<CustomizedDotProps> = (props) => {
     }
 }
 
-const WeightTransition: React.FC<WeightTransitionProps> = (props) => {
+export default function WeightTransition(props: WeightTransitionProps) {
     // width, minHeight を変数にすれば、いい感じにサイズ調整ができそう
     const { chartKeywords, data } = props
 
@@ -133,5 +130,3 @@ const WeightTransition: React.FC<WeightTransitionProps> = (props) => {
         </ResponsiveContainer>
     )
 }
-
-export default WeightTransition

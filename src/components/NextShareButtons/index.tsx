@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-
 // cf. https://github.com/Bunlong/next-share
 import {
     TwitterShareButton,
@@ -21,6 +19,8 @@ import {
 } from 'next-share'
 
 import styles from '@site/src/css/NextShareButtons.module.css'
+
+import { useEffect, useState } from 'react'
 import { useDebounce } from '@site/src/libs/debounce'
 
 interface CommonProps {
@@ -44,59 +44,75 @@ const IconProps = {
     round: true,
 }
 
-const Facebook = (props: CommonProps): JSX.Element => (
-    <FacebookShareButton {...props} quote={props.title} hashtag={HashTag}>
-        <FacebookIcon {...IconProps} />
-    </FacebookShareButton>
-)
+function Facebook(props: CommonProps): JSX.Element {
+    return (
+        <FacebookShareButton {...props} quote={props.title} hashtag={HashTag}>
+            <FacebookIcon {...IconProps} />
+        </FacebookShareButton>
+    )
+}
 
-const Twitter = (props: CommonProps): JSX.Element => (
-    <TwitterShareButton
-        {...props}
-        hashtags={[HashTag]}
-        related={['A_gebahyo', 'netkeiba']}
-    >
-        <TwitterIcon {...IconProps} />
-    </TwitterShareButton>
-)
+function Twitter(props: CommonProps): JSX.Element {
+    return (
+        <TwitterShareButton
+            {...props}
+            hashtags={[HashTag]}
+            related={['A_gebahyo', 'netkeiba']}
+        >
+            <TwitterIcon {...IconProps} />
+        </TwitterShareButton>
+    )
+}
 
-const Line = (props: CommonProps): JSX.Element => (
-    <LineShareButton {...props}>
-        <LineIcon {...IconProps} />
-    </LineShareButton>
-)
+function Line(props: CommonProps): JSX.Element {
+    return (
+        <LineShareButton {...props}>
+            <LineIcon {...IconProps} />
+        </LineShareButton>
+    )
+}
 
-const Weibo = (props: CommonProps): JSX.Element => (
-    <WeiboShareButton {...props}>
-        <WeiboIcon {...IconProps} />
-    </WeiboShareButton>
-)
+function Weibo(props: CommonProps): JSX.Element {
+    return (
+        <WeiboShareButton {...props}>
+            <WeiboIcon {...IconProps} />
+        </WeiboShareButton>
+    )
+}
 
-const Pocket = (props: CommonProps): JSX.Element => (
-    <PocketShareButton {...props}>
-        <PocketIcon {...IconProps} />
-    </PocketShareButton>
-)
+function Pocket(props: CommonProps): JSX.Element {
+    return (
+        <PocketShareButton {...props}>
+            <PocketIcon {...IconProps} />
+        </PocketShareButton>
+    )
+}
 
-const Hatena = (props: CommonProps): JSX.Element => (
-    <HatenaShareButton {...props}>
-        <HatenaIcon {...IconProps} />
-    </HatenaShareButton>
-)
+function Hatena(props: CommonProps): JSX.Element {
+    return (
+        <HatenaShareButton {...props}>
+            <HatenaIcon {...IconProps} />
+        </HatenaShareButton>
+    )
+}
 
-const Reddit = (props: CommonProps): JSX.Element => (
-    <RedditShareButton {...props}>
-        <RedditIcon {...IconProps} />
-    </RedditShareButton>
-)
+function Reddit(props: CommonProps): JSX.Element {
+    return (
+        <RedditShareButton {...props}>
+            <RedditIcon {...IconProps} />
+        </RedditShareButton>
+    )
+}
 
-const Telegram = (props: CommonProps): JSX.Element => (
-    <TelegramShareButton {...props}>
-        <TelegramIcon {...IconProps} />
-    </TelegramShareButton>
-)
+function Telegram(props: CommonProps): JSX.Element {
+    return (
+        <TelegramShareButton {...props}>
+            <TelegramIcon {...IconProps} />
+        </TelegramShareButton>
+    )
+}
 
-const MemoizedSocialButtons = React.memo(function SocialButtons({
+function SocialButtons({
     href,
     title,
     onHover: handleEvent,
@@ -119,12 +135,12 @@ const MemoizedSocialButtons = React.memo(function SocialButtons({
             <Telegram {...common} />
         </div>
     )
-})
+}
 
-const NextShareButtons = ({
+function NextShareButtons({
     href = '',
     title = '',
-}: NextShareButtonProps): JSX.Element => {
+}: NextShareButtonProps): JSX.Element {
     const [url, setUrl] = useState(href)
     const [subject, setSubject] = useState(title)
     const debounce = useDebounce(200)
@@ -146,7 +162,7 @@ const NextShareButtons = ({
     }, [url])
 
     return (
-        <MemoizedSocialButtons
+        <SocialButtons
             href={`${url}\n`}
             title={`${subject}\n`}
             onHover={handleEvent}
