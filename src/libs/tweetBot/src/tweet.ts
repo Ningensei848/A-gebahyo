@@ -42,13 +42,24 @@ const getTweetText = (race_id: string) => {
 
     const { metadata, org } = result
     const { name: title } = metadata
-    const { R, schedule, track, direction, distance, weather, going } =
-        metadata
+    const {
+        R,
+        schedule,
+        track,
+        direction,
+        distance,
+        weather,
+        going,
+        timestamp,
+    } = metadata
+    const month = new Date(timestamp).getMonth() + 1
     const R_i = R.padStart(2, '0')
     const place = schedule.replace(/\d+回*/i, '').replace(/\d+(日目)*/i, '')
     const path = [
         race_id.slice(0, 4),
-        race_id.slice(6, 8),
+        /jra/i.test(org)
+            ? month.toString().padStart(2, '0')
+            : race_id.slice(6, 8),
         race_id.slice(8, 10),
         race_id.slice(4, 6),
         race_id.slice(10, 12),
