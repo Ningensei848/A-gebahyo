@@ -6,6 +6,7 @@
 <% /* import components ------------------------------------------------- */ %>
 import WeightTransition from '@site/src/components/visualise/WeightTransition'
 import RankTransition from '@site/src/components/visualise/RankTransition'
+import WakuColor from '@site/src/components/visualise/WakuColor'
 <% /* ------------------------------------------------------------------- */ %>
 
 # <%= it.title %>
@@ -23,7 +24,7 @@ import RankTransition from '@site/src/components/visualise/RankTransition'
 
 <% /* 出走馬ごとの詳細 ----------------------------------------------------- */ %>
 <% it.entries.forEach((entry, index) => {%><% /* ------------------------ */ %>
-## <%= entry.waku %>枠<%= entry.umaban %>番: <%= entry.horse_name %>
+## <WakuColor waku={<%= entry.waku %>} ><%= entry.waku %>枠<%= entry.umaban %>番:</WakuColor> <%= entry.horse_name %>
 <%= nl %>
 > cf. https://db.netkeiba.com/horse/<%= entry.horse_id %>
 <%= nl %>
