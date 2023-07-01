@@ -50,7 +50,7 @@ const flatConfig = [
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-predefined-configurations
     js.configs.recommended,
     /** ------------------------------------------------------------------------------------------------------------ */
-    // If you want to use configuration included in a plugin,　you must `import` object and refer to the property as follows:
+    // If you want to use configuration included in a plugin, you must `import` object and refer to the property as follows:
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-configurations-included-in-plugins
     // typescriptESlintPlugin.configs.recommended, // <--- "plugin:@typescript-eslint/recommended",
     //   typescriptESlintPlugin.configs.recommended-requiring-type-checking,  // <--- "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -59,9 +59,15 @@ const flatConfig = [
     /** ------------------------------------------------------------------------------------------------------------ */
     /** Global ignore -----------------------------------------------------------------------------------------------*/
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#globally-ignoring-files-with-ignores
-    // Note: "**/node_modules/**", ".git/**" are default patterns　 (No need to specify)
+    // Note: "**/node_modules/**", ".git/**" are default patterns (No need to specify)
     {
-        ignores: ['.docusaurus/*', 'build/*', 'src/**/*.js'],
+        ignores: [
+            '.docusaurus/*',
+            'build/*',
+            '*.config.js',
+            'src/**/*.js',
+            'src/libs/tweetBot/*',
+        ],
     },
 
     /** ------------------------------------------------------------------------------------------------------------ */
