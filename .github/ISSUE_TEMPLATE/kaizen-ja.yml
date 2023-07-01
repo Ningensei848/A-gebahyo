@@ -1,0 +1,34 @@
+# テンプレートの仕組みと書き方
+# cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+# cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+
+name: 🛠 改善点の提案
+description: '[Get started] を選択して送信フォームを作成してください'
+title: '[Kaizen]: '
+labels: ['kaizen']
+assignees:
+    - Ningensei848
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Thanks for taking the time to fill out this bug report!
+    - type: textarea
+      id: target
+      attributes:
+          label: 気になったこと（改善すべき点）
+          description: できるだけ具体的に記述してください
+          placeholder: Tell us what you see.
+      validations:
+          required: true
+    - type: textarea
+      id: vision
+      attributes:
+          label: どうあってほしいか（理想とする姿）
+          description: できるだけ具体的に記述してください
+          placeholder: Tell us what you would like us to be.
+      validations:
+          required: false
+    - type: markdown
+      attributes:
+          value: '今後ともよろしくお願いいたします m(_ _)m'

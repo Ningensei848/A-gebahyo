@@ -1,0 +1,34 @@
+# テンプレートの仕組みと書き方
+# cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+# cf. https://docs.github.com/ja/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+
+name: 🛠 Suggestions for improvements
+description: 'File suggest an refacto for this project'
+title: '[Kaizen]: '
+labels: ['kaizen']
+assignees:
+    - Ningensei848
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Thanks for taking the time to fill out this bug report!
+    - type: textarea
+      id: target
+      attributes:
+          label: Concerns (points to be improved)
+          description: Please be as specific as possible.
+          placeholder: Tell us what you see.
+      validations:
+          required: true
+    - type: textarea
+      id: vision
+      attributes:
+          label: How you want us to be (ideal image)
+          description: Please be as specific as possible.
+          placeholder: Tell us what you would like us to be.
+      validations:
+          required: false
+    - type: markdown
+      attributes:
+          value: 'Thanks for completing our form!'
