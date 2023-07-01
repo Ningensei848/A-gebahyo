@@ -1,0 +1,47 @@
+/* 1: '#c0c0c0',
+2: '#0a0017',
+3: '#ff0000',
+4: '#1e90ff',
+5: '#ffd700',
+6: '#00ff00',
+7: '#ff8000',
+8: '#ff69b4', */
+
+/*
+    1枠＝白、2枠＝黒、3枠＝赤、4枠＝青、5枠＝黄、6枠＝緑、7枠＝橙、8枠＝桃
+    cf. https://www.jra.go.jp/kouza/yougo/w390.html
+*/
+
+.white {
+    color: #d4d4d4;
+    text-shadow: #0a0017 1px 0 4px;
+}
+
+.black {
+    color: #0a0017;
+    text-shadow: #d4d4d4 1px 0 16px;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.blue {
+    color: #1e90ff;
+}
+
+.yellow {
+    color: #ffd700;
+}
+
+.green {
+    color: #00ff00;
+}
+
+.orange {
+    color: #ff8000;
+}
+
+.pink {
+    color: #ff69b4;
+}
