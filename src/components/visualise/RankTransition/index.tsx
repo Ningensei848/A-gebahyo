@@ -21,7 +21,7 @@ interface RankTransitionProps {
     }>
 }
 
-function RankTransition(props: RankTransitionProps) {
+function RankTransition(props: RankTransitionProps): JSX.Element {
     const [values, stroke_color] = getValues(props)
     const race_id_list = Object.keys(values[0]).filter((v) => v !== 'name')
 

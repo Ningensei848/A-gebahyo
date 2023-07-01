@@ -34,7 +34,11 @@ interface WeightTransitionProps {
     data: Array<{ [key: string]: string | number }>
 }
 
-function VectorizedStar(props: { cx: number; cy: number; color: string }) {
+function VectorizedStar(props: {
+    cx: number
+    cy: number
+    color: string
+}): JSX.Element {
     return (
         <svg
             // xmlns='http://www.w3.org/2000/svg'  // html に埋め込んで使う場合には不要
@@ -50,7 +54,7 @@ function VectorizedStar(props: { cx: number; cy: number; color: string }) {
     )
 }
 
-function CustomizedDot(props: CustomizedDotProps) {
+function CustomizedDot(props: CustomizedDotProps): JSX.Element {
     const { cx, cy, payload } = props // value はその dot に与えられた値
     const { rank } = payload // payload は value を含む元データの一要素
 
@@ -71,7 +75,9 @@ function CustomizedDot(props: CustomizedDotProps) {
     }
 }
 
-export default function WeightTransition(props: WeightTransitionProps) {
+export default function WeightTransition(
+    props: WeightTransitionProps,
+): JSX.Element {
     // width, minHeight を変数にすれば、いい感じにサイズ調整ができそう
     const { chartKeywords, data } = props
 
