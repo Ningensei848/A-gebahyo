@@ -71,6 +71,7 @@ jobs:
 
             - name: Push to Another Repo
               working-directory: ./content/docs # prefix `./` is essential
+              if: ${{ github.ref_name == 'main' }}
               run: |
                   ls -lR
                   git sparse-checkout disable
@@ -82,6 +83,7 @@ jobs:
                   git push
 
             - name: Sync with Submodule
+              if: ${{ github.ref_name == 'main' }}
               run: |
                   git config --local user.name ${{ env.BOT_USERNAME }}
                   git config --local user.email ${{ env.BOT_EMAIL }}
