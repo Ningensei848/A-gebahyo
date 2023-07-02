@@ -15,7 +15,6 @@ jobs:
         timeout-minutes: 10
         env:
             TZ: 'Asia/Tokyo'
-            NODE_ENV: 'production'
             # secrets context
             # cf. https://docs.github.com/ja/actions/learn-github-actions/contexts#secrets-context
             ENDPOINT: ${{ secrets.ENDPOINT }}
@@ -62,13 +61,17 @@ jobs:
               run: npm ci
 
             - name: Generate Articles
-              run: npm run eta:prod
+              run: |
+                  npm run bonfire:lit
+                  npm run eta:prod
               env:
+                  NODE_ENV: 'production'
                   API_KEY: ${{ env.API_KEY }}
                   ENDPOINT: ${{ env.ENDPOINT }}
 
             - name: Push to Another Repo
               working-directory: ./content/docs # prefix `./` is essential
+              if: ${{ github.ref_name == 'main' }}
               run: |
                   ls -lR
                   git sparse-checkout disable
@@ -80,6 +83,7 @@ jobs:
                   git push
 
             - name: Sync with Submodule
+              if: ${{ github.ref_name == 'main' }}
               run: |
                   git config --local user.name ${{ env.BOT_USERNAME }}
                   git config --local user.email ${{ env.BOT_EMAIL }}
