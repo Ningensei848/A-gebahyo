@@ -62,7 +62,9 @@ jobs:
               run: npm ci
 
             - name: Generate Articles
-              run: npm run eta:prod
+              run: |
+                  npm run bonfire:lit
+                  npm run eta:prod
               env:
                   API_KEY: ${{ env.API_KEY }}
                   ENDPOINT: ${{ env.ENDPOINT }}
