@@ -59,7 +59,7 @@ jobs:
                   cache: npm
 
             - name: Install Dependencies from Lockfile
-              run: npm ci
+              run: npm install
 
             - name: Generate Articles
               run: |
