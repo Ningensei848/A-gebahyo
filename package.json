@@ -23,7 +23,9 @@
         "format": "prettier --ignore-path .gitignore --write './**/*.{js,jsx,ts,tsx,json,css,md,mdx}' --ignore-unknown",
         "eta:dev": "npm run compile --dir='libs/eta' && node src/libs/eta/race.js --yyyymmdd=${npm_config_date}",
         "eta:prod": "NODE_ENV=\"production\" npm run eta:dev",
-        "bonfire:lit": "npm run compile --dir='libs/eta' && node src/libs/eta/bonfire.js"
+        "bonfire:lit": "npm run compile --dir='libs/eta' && node src/libs/eta/bonfire.js",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build"
     },
     "dependencies": {
         "@docusaurus/core": "^3.0.0-alpha.0",
@@ -45,6 +47,13 @@
     "devDependencies": {
         "@docusaurus/module-type-aliases": "^3.0.0-alpha.0",
         "@docusaurus/tsconfig": "^3.0.0-alpha.0",
+        "@storybook/addon-essentials": "^7.0.24",
+        "@storybook/addon-interactions": "^7.0.24",
+        "@storybook/addon-links": "^7.0.24",
+        "@storybook/blocks": "^7.0.24",
+        "@storybook/react": "^7.0.24",
+        "@storybook/react-webpack5": "^7.0.24",
+        "@storybook/testing-library": "^0.0.14-next.2",
         "@typescript-eslint/eslint-plugin": "^5.60.1",
         "@typescript-eslint/parser": "^5.60.1",
         "dotenv": "^16.3.1",
@@ -52,10 +61,13 @@
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-react": "^7.32.2",
         "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-storybook": "^0.6.12",
         "eta": "^3.0.3",
         "husky": "^8.0.3",
         "lint-staged": "^13.2.3",
         "prettier": "^2.8.8",
+        "prop-types": "^15.8.1",
+        "storybook": "^7.0.24",
         "typescript": "^5.1.5"
     },
     "prettier": {
@@ -96,5 +108,10 @@
     },
     "engines": {
         "node": ">=18.16"
+    },
+    "eslintConfig": {
+        "extends": [
+            "plugin:storybook/recommended"
+        ]
     }
 }
