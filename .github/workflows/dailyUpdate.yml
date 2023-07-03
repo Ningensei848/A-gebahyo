@@ -8,6 +8,11 @@ on:
         # * is a special character in YAML so you have to quote this string
         - cron: '31 11,23 * * *'
 
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+    # cf. https://docs.github.com/ja/actions/using-jobs/assigning-permissions-to-jobs
+    contents: write
+
 jobs:
     deploy:
         name: Generate Articles
