@@ -15,6 +15,7 @@ jobs:
         timeout-minutes: 10
         env:
             TZ: 'Asia/Tokyo'
+            NODE_ENV: 'production'
             # secrets context
             # cf. https://docs.github.com/ja/actions/learn-github-actions/contexts#secrets-context
             ENDPOINT: ${{ secrets.ENDPOINT }}
@@ -65,7 +66,6 @@ jobs:
                   npm run bonfire:lit
                   npm run eta:prod
               env:
-                  NODE_ENV: 'production'
                   API_KEY: ${{ env.API_KEY }}
                   ENDPOINT: ${{ env.ENDPOINT }}
 
