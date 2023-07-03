@@ -20,6 +20,9 @@ const react = require('eslint-plugin-react')
 const reactHooks = require('eslint-plugin-react-hooks')
 const prettier = require('eslint-config-prettier')
 const js = require('@eslint/js')
+
+// const { FlatCompat } = require('@eslint/eslintrc')
+// const compat = new FlatCompat()
 // -------------------------------------------------------------------------------------------------------------------
 
 const typescriptParserOptions = {
@@ -49,13 +52,12 @@ const flatConfig = [
     /** Predefined Configs ----------------------------------------------------------------------------------------- */
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-predefined-configurations
     js.configs.recommended,
+    // ...compat.extends('plugin:storybook/recommended'),
     /** ------------------------------------------------------------------------------------------------------------ */
     // If you want to use configuration included in a plugin, you must `import` object and refer to the property as follows:
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-configurations-included-in-plugins
     // typescriptESlintPlugin.configs.recommended, // <--- "plugin:@typescript-eslint/recommended",
     //   typescriptESlintPlugin.configs.recommended-requiring-type-checking,  // <--- "plugin:@typescript-eslint/recommended-requiring-type-checking"
-    /** ------------------------------------------------------------------------------------------------------------ */
-    prettier, // <--- "prettier"
     /** ------------------------------------------------------------------------------------------------------------ */
     /** Global ignore -----------------------------------------------------------------------------------------------*/
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#globally-ignoring-files-with-ignores
@@ -69,13 +71,13 @@ const flatConfig = [
             'src/libs/tweetBot/*',
         ],
     },
-
     /** ------------------------------------------------------------------------------------------------------------ */
     /** Global Rules ----------------------------------------------------------------------------------------------- */
     // cf. https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#configuring-rules
     {
         rules: {
             semi: ['error', 'never'], // semi coron は使わない
+            ...prettier.rules,
         },
     },
     /** ------------------------------------------------------------------------------------------------------------ */
